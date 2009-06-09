@@ -43,16 +43,6 @@ class UsersController < ApplicationController
     end
   end
 
-#  def suspend
-#    @user.suspend! 
-#    redirect_to users_path
-#  end
-#
-#  def unsuspend
-#    @user.unsuspend! 
-#    redirect_to users_path
-#  end
-
   def destroy
     @user.delete!
     redirect_to users_path
