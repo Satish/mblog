@@ -1,0 +1,20 @@
+defaults: &defaults
+  adapter: mysql
+  encoding: utf8
+  username: root
+  password: root
+  host: localhost
+  socket: /var/run/mysqld/mysqld.sock
+
+  
+development:
+  database: microblogging_development
+  <<: *defaults
+
+test:
+  database: microblogging_test
+  <<: *defaults
+
+production:
+  database: microblogging_development
+  <<: *defaults
