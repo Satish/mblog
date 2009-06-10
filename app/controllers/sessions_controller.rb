@@ -36,7 +36,7 @@ class SessionsController < ApplicationController
 
   def destroy
     logout_killing_session!
-    flash[:notice] = "You have been logged out."
+    flash[:message] = "You have been logged out."
     redirect_back_or_default('/')
   end
 
@@ -45,8 +45,8 @@ class SessionsController < ApplicationController
   
   # Track failed login attempts
   def note_failed_signin
-    flash[:error] = "Couldn't log you in as '#{params[:login]}'"
-    logger.warn "Failed login for '#{params[:login]}' from #{request.remote_ip} at #{Time.now.utc}"
+    flash[:error] = "Couldn't log you in as '#{ params[:login] }'"
+    logger.warn "Failed login for '#{ params[:login] }' from #{request.remote_ip} at #{ Time.now.utc }"
   end
 
   def password_authentication(name, password)
@@ -63,7 +63,7 @@ class SessionsController < ApplicationController
         if @user = User.find_by_identity_url(identity_url)
           successful_login
         else
-          failed_login "Sorry, no user by that identity URL exists (#{identity_url})"
+          failed_login "Sorry, no user by that identity URL exists (#{ identity_url })"
         end
       else
         failed_login result.message
@@ -92,7 +92,7 @@ class SessionsController < ApplicationController
     self.current_user = @user
     new_cookie_flag = (params[:remember_me] == "1")
     handle_remember_cookie! new_cookie_flag
-    flash[:notice] = "Logged in successfully"
+    flash[:message] = "Logged in successfully"
     redirect_back_or_default(@user.has_role?('admin') ? admin_root_path : root_path)
   end
 
