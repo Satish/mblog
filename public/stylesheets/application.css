@@ -1,54 +1,50 @@
-body { background-color: #fff; color: #333; }
+*{ margin:0; padding:0; font-weight:inherit; font-style:inherit; font-family:inherit; vertical-align:baseline; }
+html { overflow-y: scroll; /* To prevent 'popping' */}
+ul, ol {  list-style-image:none; list-style-position:outside; list-style-type:none;}
+body { font-family: "Helvetica Neue", Helvetica, "Lucida Grande", Arial, Verdana, Sans-Serif;}
+a img {	border: none; }
+a, a:active, a:hover, a:visited { text-decoration:none; color: #1382B9; }
+body#body {font-size: 85%; background-color: #f0f0f0}
+#body #wrapper { margin:0px auto; width:80%; background-color: #fff; border:1px solid #DDDDDD; }
 
-body, p, ol, ul, td {
-  font-family: verdana, arial, helvetica, sans-serif;
-  font-size:   13px;
-  line-height: 18px;
-}
+/* header */
+#header, #headerInner { clear:both; overflow:hidden; }
+#header { padding:10px 0px; padding: 5px; font-size: 1em; border-bottom: 1px solid #ccc;}
+#headerInner { padding:0px 10px; margin-bottom:10px; }
+#headerInner .right { float: right; }
+#headerInner .left { float: left; }
+#headerInner .topNav { padding-bottom: 20px; font-weight: bold; overflow:hidden;}
+#headerInner .topNav ul li { float:right; margin:2px; padding:0px 10px; border-right:1px solid #3A2012}
+#headerInner .topNav ul li.last { border: none }
+#headerInner .logo h1 { font-size: 3em; }
+#headerInner .logo h1 a { color:#999 }
+#header .navigationBar{ overflow:hidden; padding:5px 10px;}
+#header .navigationBar { clear:both; background: #858484 url(/images/bgNavigation.png); font-size:1.2em; font-weight:bold}
+#header .navigationBar li { float:left; padding:5px 15px; border-right:1px solid #555555;}
+#header .navigationBar li.active { }
+#header .navigationBar li.inactive a { color: #eee }
+#searchBox .searchField, #searchBox .searchButton { border:1px solid #333333; font-size:1.5em; }
+#searchBox .searchField { padding:2px 5px }
+#searchBox .searchButton { padding: 1px 5px; }
 
-pre {
-  background-color: #eee;
-  padding: 10px;
-  font-size: 11px;
-}
+#container { padding: 20px 10px; overflow: hidden; }
+#container #leftColumn { padding-bottom:20px; width: 75%; float:left; }
+#container #rightColumn { width: 23%; float:right; }
 
-a { color: #000; }
-a:visited { color: #666; }
-a:hover { color: #fff; background-color:#000; }
+/* ERRRO MESSAGE STYLE START */
+.fieldWithErrors input, .fieldWithErrors textarea{ padding: 2px; border: 3px solid red; }
+#errorExplanation { color:#000; width:500px; margin:20px 0px; overflow:hidden; line-height:20px; border: 1px solid #bbb; }
+#errorExplanation h2 { color: #fff; padding: 5px; font-size: 14px; font-weight: normal; background-color: #CC0000; border-bottom:1px solid #bbb; font-weight: bold; }
+#errorExplanation p { padding: 5px; font-size: 14px; margin-top: 10px; }
+#errorExplanation ul li { width: 100%; 	font-size: 12px; list-style: square; margin: 2px 10px 2px 30px; background: none !important;  padding-left: 0; }
+/* ERRRO MESSAGE STYLE END */
 
-.fieldWithErrors {
-  padding: 2px;
-  background-color: red;
-  display: table;
-}
-
-#errorExplanation {
-  width: 400px;
-  border: 2px solid red;
-  padding: 7px;
-  padding-bottom: 12px;
-  margin-bottom: 20px;
-  background-color: #f0f0f0;
-}
-
-#errorExplanation h2 {
-  text-align: left;
-  font-weight: bold;
-  padding: 5px 5px 5px 15px;
-  font-size: 12px;
-  margin: -7px;
-  background-color: #c00;
-  color: #fff;
-}
-
-#errorExplanation p {
-  color: #333;
-  margin-bottom: 0;
-  padding: 5px;
-}
-
-#errorExplanation ul li {
-  font-size: 12px;
-  list-style: square;
-}
-
+/* PAGINATION STYLE START */
+.pagination { overflow: hidden; margin: 15px 0; color: #ccc; }
+.pagination .static { font-weight: bold; color: #333; padding: 2px 5px 0 0; }
+.pagination { padding: 3px; margin: 3px;}
+.pagination a { padding: 2px 5px 2px 5px; margin: 2px; border: 1px solid #4082BC;  text-decoration: none; color: #3399CC; font-weight:bold; }
+.pagination a:hover, .pagination a:active { border: 1px solid #4082BC ; color: #3399CC; }
+.pagination span.current { padding: 2px 5px 2px 5px; margin: 2px; border: 1px solid #4082BC; font-weight: bold; background-color: #3399CC; color: #FFF; }
+.pagination span.disabled { padding: 2px 5px 2px 5px; margin: 2px; border: 1px solid #eee; color: #ddd;}
+/* PAGINATION STYLE END */

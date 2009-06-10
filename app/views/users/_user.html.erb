@@ -1,0 +1,8 @@
+<div>
+  <div class="profilePic">
+    <%= link_to(profile_image(user, :S50x50), user) -%>
+  </div>
+  <div class="name">
+    <%= link_to h(truncate(user.name, :length => 15)), user -%>
+  </div>
+</div>

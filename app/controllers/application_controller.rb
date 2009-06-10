@@ -12,5 +12,13 @@ class ApplicationController < ActionController::Base
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
   # Scrub sensitive parameters from your log
-  # filter_parameter_logging :password
+  filter_parameter_logging  :password, :password_confirmation
+  
+  # --------------------------- private -----------------------------
+  private
+  
+  def parse_page_number(page)
+    page.to_i == 0 ? 1 : page.to_i
+  end
+
 end

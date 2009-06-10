@@ -8,8 +8,7 @@
 
 <% @messages.each do |message| %>
   <tr>
-    <td><%=h message.description %></td>
-    <td><%=h message.parent %></td>
+    <td><%=h message.body %></td>
     <td><%= link_to 'Show', message %></td>
     <td><%= link_to 'Edit', edit_message_path(message) %></td>
     <td><%= link_to 'Destroy', message, :confirm => 'Are you sure?', :method => :delete %></td>

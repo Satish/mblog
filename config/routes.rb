@@ -11,14 +11,14 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   # login and logout routes
-  map.resource :session, :only => [:create]
+  map.resource :session, :only => [:create, :new]
   map.with_options :controller => 'sessions' do |session|
     session.login  '/login', :action => 'new'
     session.logout '/logout', :action => 'destroy'
   end
 
   map.resources :messages
-
+  map.resources :users, :only => [:index, :show]
 
   #resource route within a admin namespace:
   map.namespace :admin do |admin|

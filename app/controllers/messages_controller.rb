@@ -1,4 +1,7 @@
 class MessagesController < ApplicationController
+
+  before_filter :login_required, :except => [:index]
+
   # GET /messages
   # GET /messages.xml
   def index
@@ -40,7 +43,7 @@ class MessagesController < ApplicationController
   # POST /messages
   # POST /messages.xml
   def create
-    @message = Message.new(params[:message])
+    @message = current_user.messages.new(params[:message])
 
     respond_to do |format|
       if @message.save

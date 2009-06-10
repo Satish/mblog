@@ -31,7 +31,9 @@ class User < ActiveRecord::Base
   include Authentication::ByCookieToken
   include Authorization::AasmRoles
 
-  validates_presence_of     :login
+  named_scope :active, :conditions => { :state => 'active' }
+  
+  validates_presence_of     :login, :case_sensitive => false
   validates_length_of       :login,    :within => 3..40, :if => Proc.new{ |user| true unless user.login.blank? }
   validates_uniqueness_of   :login
   validates_format_of       :login,    :with => Authentication.login_regex, :message => Authentication.bad_login_message
@@ -41,12 +43,17 @@ class User < ActiveRecord::Base
 
   validates_presence_of     :email
   validates_length_of       :email,    :within => 6..100, :if => Proc.new{ |user| true unless user.email.blank? } #r@a.wk
-  validates_uniqueness_of   :email
+  validates_uniqueness_of   :email,    :case_sensitive => false
   validates_format_of       :email,    :with => Authentication.email_regex, :message => Authentication.bad_email_message, :if => Proc.new{ |user| true unless user.email.blank? }
 
+  has_many :messages, :foreign_key => "owner_id", :dependent => :destroy
   has_many :roles_users, :dependent => :destroy
   has_many :roles, :through => :roles_users
-  
+  has_one :profile_image, :as => :attachable, :dependent => :destroy
+
+#  has_many :assets, :as => :attachable, :dependent => :destroy
+#  has_one :notification, :dependent => :destroy
+
 
   # HACK HACK HACK -- how to do attr_accessible from here?
   # prevents a user from submitting a crafted form that bypasses activation
@@ -85,6 +92,13 @@ class User < ActiveRecord::Base
     @_list ||= self.roles.collect(&:name)
     return true if @_list.include?("admin")
     (@_list.include?(role_in_question.to_s) )
+  end
+
+  def self.search(query, options)
+    conditions = ["name like ? or login like ? or email like ?", "%#{query}%", "%#{query}%", "%#{query}%"] unless query.blank?
+    default_options = {:conditions => conditions, :order => "created_at DESC, login"}
+    
+    paginate default_options.merge(options)
   end
 
   # ++++++++++++++++++++++++++++++ protected ++++++++++++++++++++++++++++++

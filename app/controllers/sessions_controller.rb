@@ -50,7 +50,7 @@ class SessionsController < ApplicationController
   end
 
   def password_authentication(name, password)
-    if user = User.authenticate(params[:login], params[:password])
+    if @user = User.authenticate(params[:login], params[:password])
       successful_login
     else
       failed_login "Sorry, that username/password doesn't work"
@@ -60,7 +60,7 @@ class SessionsController < ApplicationController
   def open_id_authentication
     authenticate_with_open_id do |result, identity_url|
       if result.successful?
-        if @current_user = User.find_by_identity_url(identity_url)
+        if @user = User.find_by_identity_url(identity_url)
           successful_login
         else
           failed_login "Sorry, no user by that identity URL exists (#{identity_url})"
@@ -88,12 +88,12 @@ class SessionsController < ApplicationController
     #   :login => "#{params[:openid.sreg.nickname]}",
     #   :email => "#{params[:openid.sreg.email]}"
     # )
-    user.update_visited_at
-    self.current_user = user
+    @user.update_visited_at
+    self.current_user = @user
     new_cookie_flag = (params[:remember_me] == "1")
     handle_remember_cookie! new_cookie_flag
     flash[:notice] = "Logged in successfully"
-    redirect_back_or_default(user.has_role?('admin') ? admin_root_path : root_path)
+    redirect_back_or_default(@user.has_role?('admin') ? admin_root_path : root_path)
   end
 
   def failed_login(message)
