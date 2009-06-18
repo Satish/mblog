@@ -7,7 +7,8 @@ class CreateUsers < ActiveRecord::Migration
       t.string        :state,   :null => :no, :default => 'passive'
       t.string        :identity_url
       t.datetime      :activated_at, :deleted_at, :visited_at, :remember_token_expires_at
-      
+      t.integer       :followers_count, :followings_count, :default => 0
+
       t.timestamps
     end
     add_index :users, :login, :unique => true

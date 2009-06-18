@@ -1,0 +1,12 @@
+<style>
+.floatRight { float:right; }
+.formRow { padding:10px 0px; overflow:hidden; }
+.submitButton { border:1px solid; border-color:  #dadada #555 #555 #dadada; padding: 2px 5px; }
+.messageForm .textArea { width:500px; height:50px;border:1px solid #dadada; padding: 5px; }
+.messageForm { width: 514px; }
+</style>
+<% form_for [@user, @message], :html => { :id => 'messageForm', :class => "messageForm" } do |f| -%>
+  <%= f.error_messages -%>
+  <div class = "formRow"><%= f.text_area :body, :class => "textArea" -%></div>
+  <div class = "formRow"><%= f.submit 'Create', :class => "submitButton floatRight" -%></div>
+<% end -%>

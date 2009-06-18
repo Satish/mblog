@@ -1,7 +1,8 @@
 class MessagesController < ApplicationController
 
   before_filter :login_required, :except => [:index]
-
+  before_filter :find_user, :except => [:index]
+  
   # GET /messages
   # GET /messages.xml
   def index
@@ -43,8 +44,8 @@ class MessagesController < ApplicationController
   # POST /messages
   # POST /messages.xml
   def create
-    @message = current_user.messages.new(params[:message])
-
+    @message = current_user.owned_messages.new(params[:message])
+    @message.attachable = @user
     respond_to do |format|
       if @message.save
         flash[:notice] = 'Message was successfully created.'
@@ -85,4 +86,13 @@ class MessagesController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  #----------------------------------- private -----------------------------
+  private
+
+  def find_user
+    @user = User.find_by_login(params[:user_id])
+    redirect_to current_user unless @user
+  end
+
 end

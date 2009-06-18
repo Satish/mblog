@@ -4,7 +4,8 @@ class UsersController < ApplicationController
   
   # Protect these actions behind an admin login
   # before_filter :admin_required, :only => [:suspend, :unsuspend, :destroy, :purge]
-  before_filter :find_user, :only => [:suspend, :unsuspend, :destroy, :purge]
+  before_filter :login_required, :only => [:show]
+  before_filter :find_user, :only => [:show, :destroy]
   
   def index
     options = { :page => parse_page_number(params[:page]), :per_page => 20 }
@@ -44,6 +45,11 @@ class UsersController < ApplicationController
       flash[:error]  = "We couldn't find a user with that activation code -- check your email? Or maybe you've already activated -- try signing in."
       redirect_back_or_default('/')
     end
+  end
+
+  def show
+    @message = Message.new
+    @messages = current_user.attached_messages
   end
 
   def destroy

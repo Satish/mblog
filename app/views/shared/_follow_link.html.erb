@@ -1,0 +1,5 @@
+<% unless current_user.following?(user) -%>
+  <li class="followLink" id = "followUser_<%= user.id -%>"><%= link_to_remote 'Follow', :url => [user, Contact.new], :method => :post -%></li>
+<% else -%>
+  <li class="unfollowLink" id = "followUser_<%= user.id -%>">Following <%= link_to_remote 'Remove', :url => [:remove, user, Contact.new], :method => :delete -%></li>
+<% end -%>

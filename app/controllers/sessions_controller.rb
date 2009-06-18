@@ -42,12 +42,6 @@ class SessionsController < ApplicationController
 
   # ++++++++++++++++++++++++++++++ protected ++++++++++++++++++++++++++++++
   protected
-  
-  # Track failed login attempts
-  def note_failed_signin
-    flash[:error] = "Couldn't log you in as '#{ params[:login] }'"
-    logger.warn "Failed login for '#{ params[:login] }' from #{request.remote_ip} at #{ Time.now.utc }"
-  end
 
   def password_authentication(name, password)
     if @user = User.authenticate(params[:login], params[:password])
@@ -60,7 +54,7 @@ class SessionsController < ApplicationController
   def open_id_authentication
     authenticate_with_open_id do |result, identity_url|
       if result.successful?
-        if @user = User.find_by_identity_url(identity_url)
+        if @user = User.active.find_by_identity_url(identity_url)
           successful_login
         else
           failed_login "Sorry, no user by that identity URL exists (#{ identity_url })"
@@ -93,12 +87,23 @@ class SessionsController < ApplicationController
     new_cookie_flag = (params[:remember_me] == "1")
     handle_remember_cookie! new_cookie_flag
     flash[:message] = "Logged in successfully"
-    redirect_back_or_default(@user.has_role?('admin') ? admin_root_path : root_path)
+    redirect_back_or_default(@user.has_role?('admin') ? admin_root_path : user_path(@user))
   end
 
+  # Track failed login attempts
   def failed_login(message)
-    flash[:error] = message
-    redirect_to(login_path)
+    check_for_pending_account
+    flash[:error] = message ? message : "Couldn't log you in as '#{ params[:login] }'" unless flash[:notice]
+    logger.warn "Failed login for '#{ params[:login] }' from #{ request.remote_ip } at #{ Time.zone.now }"
+    redirect_to login_path and return
   end
+
+  # check for pending account
+  def check_for_pending_account
+    user = User.pending.find_by_login(params[:login]) || User.pending.find_by_identity_url(params[:openid_identifier])
+    user = nil unless (user && user.authenticated?(params[:password])) unless params[:openid_identifier]
+    flash[:notice] = 'Please activate your account first by clicking on the link emailed to you' if user
+  end
+
 
 end

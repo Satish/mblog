@@ -1,0 +1,5 @@
+if current_user.followings.delete(@user)
+  page.replace "followUser_#{ @user.id }", :partial => "shared/follow_link", :locals => { :user => @user }
+else
+  page.render :nothing => true
+end

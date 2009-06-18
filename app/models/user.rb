@@ -32,8 +32,11 @@ class User < ActiveRecord::Base
   include Authorization::AasmRoles
 
   named_scope :active, :conditions => { :state => 'active' }
-  
-  validates_presence_of     :login, :case_sensitive => false
+  named_scope :pending, :conditions => { :state => 'pending' }
+  named_scope :deleted, :conditions => { :state => 'deleted' }
+  named_scope :suspended, :conditions => { :state => 'suspended' }
+
+  validates_presence_of     :login,    :case_sensitive => false
   validates_length_of       :login,    :within => 3..40, :if => Proc.new{ |user| true unless user.login.blank? }
   validates_uniqueness_of   :login
   validates_format_of       :login,    :with => Authentication.login_regex, :message => Authentication.bad_login_message
@@ -46,9 +49,18 @@ class User < ActiveRecord::Base
   validates_uniqueness_of   :email,    :case_sensitive => false
   validates_format_of       :email,    :with => Authentication.email_regex, :message => Authentication.bad_email_message, :if => Proc.new{ |user| true unless user.email.blank? }
 
-  has_many :messages, :foreign_key => "owner_id", :dependent => :destroy
   has_many :roles_users, :dependent => :destroy
   has_many :roles, :through => :roles_users
+
+  has_many :contact_followers, :class_name => 'Contact', :foreign_key => 'following_id', :dependent => :destroy
+  has_many :followers, :through => :contact_followers, :source => :follower
+
+  has_many :contact_followings, :class_name => 'Contact', :foreign_key => 'follower_id', :dependent => :destroy
+  has_many :followings, :through => :contact_followings, :source => :following
+
+  has_many :owned_messages, :class_name => 'Message', :foreign_key => 'owner_id', :dependent => :destroy
+  has_many :attached_messages, :class_name => 'Message', :as => :attachable
+
   has_one :profile_image, :as => :attachable, :dependent => :destroy
 
 #  has_many :assets, :as => :attachable, :dependent => :destroy
@@ -99,6 +111,14 @@ class User < ActiveRecord::Base
     default_options = {:conditions => conditions, :order => "created_at DESC, login"}
     
     paginate default_options.merge(options)
+  end
+
+  def to_param
+    login
+  end
+
+  def following?(user)
+    user ? following_ids.include?(user.id) : false
   end
 
   # ++++++++++++++++++++++++++++++ protected ++++++++++++++++++++++++++++++

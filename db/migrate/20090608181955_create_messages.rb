@@ -3,6 +3,7 @@ class CreateMessages < ActiveRecord::Migration
     create_table :messages do |t|
       t.text        :body
       t.references  :parent, :owner
+      t.references  :attachable, :polymorphic => true
       t.integer   :lft, :rgt
       t.datetime    :deleted_at
 

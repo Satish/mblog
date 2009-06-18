@@ -18,11 +18,16 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   map.resources :messages
-  map.resources :users, :only => [:index, :show]
+  map.user_messages '/:user_id/messages', :controller => 'messages', :action => 'create', :conditions => { :method => :post }  
+  map.resources :users, :only => [:index] do |users|
+     users.resources :contacts, :path_prefix => ":user_id", :only => [:index, :create], :collection => { :remove => :delete }
+  end
+  map.with_options :controller => 'users' do |users|
+    users.user '/:id', :action => 'show', :conditions => { :method => :get }
+  end
 
   #resource route within a admin namespace:
   map.namespace :admin do |admin|
-    # admin root path
     admin.root :controller => :dashboard
     admin.resources :dashboard
   end
