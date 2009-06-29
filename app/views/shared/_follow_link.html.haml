@@ -1,0 +1,7 @@
+- unless current_user.following?(user)
+  %li{ :class => "followLink",  :id => "followUser_#{ user.login }" }
+    = link_to_remote 'Follow', :url => [user, Contact.new], :method => :post
+-else
+  %li{ :class => "unfollowLink", :id => "followUser_#{ user.login }" }
+    = 'Following'
+    = link_to_remote 'Remove', :url => [:remove, user, Contact.new], :method => :delete

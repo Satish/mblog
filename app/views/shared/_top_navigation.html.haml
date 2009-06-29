@@ -1,0 +1,10 @@
+.topNav
+  %ul
+    - unless logged_in?
+      %li.last= link_to 'Login', login_path, :title => 'Click Here to Login'
+      %li= link_to 'Register', signup_path, :title => 'Click Here to Register'
+      %li= link_to "Home", root_path
+    - else
+      %li.last= link_to 'Logout', logout_path, :title => 'Click Here to Logout'
+      %li= link_to 'My Account', "#", :title => 'My Account'
+      %li= link_to "Home", current_user

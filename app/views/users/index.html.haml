@@ -1,0 +1,11 @@
+#userListing
+  %p= params[:query].blank? ?  "Search User" : "Searching for: " + h(params[:query])
+  = render :partial => 'shared/search'
+  %p{ :style => "font-size:11px;" } (Search by: login, email address or name)
+
+  - if @users.empty?
+    = params[:query].blank? ? "No users found" : "No results found for: " + h(params[:query])
+  - else
+    = render @users
+    .pagination
+      = will_paginate @users

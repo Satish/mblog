@@ -1,0 +1,4 @@
+%ul
+  %li.profilePic= link_to(profile_image(user, :S50x50), user)
+  %li.name= link_to h(truncate(user.name, :length => 15)), user
+  = render :partial => 'shared/follow_link', :locals => { :user => user }

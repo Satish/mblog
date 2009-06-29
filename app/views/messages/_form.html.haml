@@ -1,0 +1,4 @@
+- form_for [@user, @message], :html => { :id => 'messageForm', :class => "messageForm" } do |f|
+  = f.error_messages
+  .formRow= f.text_area :body, :class => "textArea"
+  .formRow= f.submit 'Create', :class => "submitButton floatRight"

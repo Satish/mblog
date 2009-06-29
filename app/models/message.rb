@@ -19,6 +19,10 @@ class Message < ActiveRecord::Base
 
   acts_as_nested_set :dependent => :destroy
 
+  @@per_page = 20
+  cattr_reader :per_page
+  default_scope :order => "created_at DESC"
+
   validates_presence_of :body, :owner_id, :attachable_id, :attachable_type
   validates_length_of :body, :maximum => MAX_MESSAGE_LENGTH
 

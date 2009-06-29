@@ -6,6 +6,9 @@ class Contact < ActiveRecord::Base
   belongs_to :following, :class_name => 'User'
   belongs_to :follower, :class_name => 'User'
 
+  after_create :increment_contacts_count
+  after_destroy :decrement_contacts_count
+
   protected
 
   def validate
@@ -13,5 +16,16 @@ class Contact < ActiveRecord::Base
       errors.add_to_base("You can't follow yourself!")
     end
   end
+
+  def increment_contacts_count
+    follower.increment!(:followings_count)
+    following.increment!(:followers_count)
+  end
+
+  def decrement_contacts_count
+    follower.decrement!(:followings_count)
+    following.decrement!(:followers_count)
+  end
+
 
 end

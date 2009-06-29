@@ -1,0 +1,7 @@
+%ul.message
+  %li.description= h message.body
+  %li.actions
+    - if message.owner?(current_user)
+      = link_to 'Show', message
+      = link_to 'Edit', edit_message_path(message)
+      = link_to 'Destroy', message, :confirm => "You want to delete this message.\nAre you sure?", :method => :delete

@@ -6,7 +6,7 @@ class MessagesController < ApplicationController
   # GET /messages
   # GET /messages.xml
   def index
-    @messages = Message.all
+    @messages = Message.paginate(:page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
