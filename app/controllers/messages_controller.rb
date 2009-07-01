@@ -7,7 +7,7 @@ class MessagesController < ApplicationController
   # GET /messages
   # GET /messages.xml
   def index
-    options = { :page => params[:page] }
+    options = { :page => params[:page], :include => [:owner] }
     @message = Message.new(:body => '')
     @messages = logged_in? ? current_user.owned_messages.search(params[:query], options) : Message.search(params[:query], options)
 

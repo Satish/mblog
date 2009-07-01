@@ -1,3 +1,4 @@
-= render 'messages/form' if logged_in?
-= render @messages
-= will_paginate @messages
+= render :partial => 'messages/form', :locals => { :user => current_user } if logged_in?
+#messages
+  = render @messages
+  = will_paginate @messages

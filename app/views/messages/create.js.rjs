@@ -1,5 +1,7 @@
 if @message.save
-
+  page.insert_html :top, "messages", :partial => "message", :locals => { :message => @message }
+  @message = Message.new(:body => '')
+  page.replace "messageFormContainer", :partial => "form", :locals => { :user => @user }
 else
-  page.replace "messageFormContainer", :partial => "messages/form"
+  page.replace "messageFormContainer", :partial => "form", :locals => { :user => @user }
 end

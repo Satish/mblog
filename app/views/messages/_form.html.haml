@@ -1,7 +1,7 @@
 #messageFormContainer
   = javascript_tag "$(document).ready(function(){MessageView.updateMessageCharactersCount('#messageBody','#messageCharactersCount')});"
 
-  - form_for [@user, @message], :html => { :target => :messageFormIframe, :id => 'messageForm', :class => "messageForm" } do |f|
+  - form_for [user, @message], :html => { :target => :messageFormIframe, :id => 'messageForm', :class => "messageForm" } do |f|
     = error_messages_for :message, :class => "errorMessages", :id => "errorMessages"
     %div{ :id => "messageCharactersCount", :class => "messageCharactersCount" }=  MAX_MESSAGE_LENGTH
     .formRow= f.text_area :body, :class => "textArea", :tabindex => 1, :id => "messageBody"

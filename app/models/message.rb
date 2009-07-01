@@ -23,6 +23,8 @@ class Message < ActiveRecord::Base
   cattr_reader :per_page
   default_scope :order => "created_at DESC"
 
+  #attr_accessible :body
+
   validates_presence_of :body, :owner_id, :attachable_id, :attachable_type
   validates_length_of :body, :maximum => MAX_MESSAGE_LENGTH
 
