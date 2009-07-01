@@ -6,6 +6,7 @@
     = link_to "Followers", user_contacts_path(@user, :id => "followers")
   %li
     = link_to "Followings", user_contacts_path(@user, :id => "followings")
-= render 'messages/form'
+= render :partial => 'messages/form', :locals => { :user => @user }
 #messages
   = render @messages
+  = will_paginate @messages

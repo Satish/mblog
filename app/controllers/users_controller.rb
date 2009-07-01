@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   # Protect these actions behind an admin login
   # before_filter :admin_required, :only => [:suspend, :unsuspend, :destroy, :purge]
   before_filter :login_required, :only => [:show]
-  before_filter :find_user, :only => [:show, :destroy]
+  before_filter :find_user, :only => [:show]
   
   def index
     options = { :page => parse_page_number(params[:page]), :per_page => 20 }
@@ -49,7 +49,8 @@ class UsersController < ApplicationController
 
   def show
     @message = Message.new(:body => '')
-    @messages = current_user.attached_messages
+    options = { :page => params[:page], :include => [:owner] }
+    @messages = @user.owned_messages.search(params[:query], options)
   end
 
   def destroy
