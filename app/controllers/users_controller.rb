@@ -48,7 +48,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    @message = Message.new
+    @message = Message.new(:body => '')
     @messages = current_user.attached_messages
   end
 
@@ -71,6 +71,7 @@ class UsersController < ApplicationController
 
   def find_user
     @user = User.find_by_login(params[:id])
+    redirect_to_root_path_with_error_message unless @user
   end
 
 end

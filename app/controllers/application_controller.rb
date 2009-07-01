@@ -21,4 +21,8 @@ class ApplicationController < ActionController::Base
     page.to_i == 0 ? 1 : page.to_i
   end
 
+  def redirect_to_root_path_with_error_message
+    flash[:error] = PAGE_NOT_FOUND and redirect_to root_path and return    
+  end
+  
 end

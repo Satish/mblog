@@ -1,8 +1,11 @@
-<ul>
-  <li class="profilePic"><%= link_to(profile_image(@user, :S150x150), @user) -%></li>
-  <%= render :partial => 'shared/follow_link', :locals => { :user => @user } -%></li>
-  <li><%= link_to "Followers", user_contacts_path(@user, :id => "followers") -%></li>
-  <li><%= link_to "Followings", user_contacts_path(@user, :id => "followings") -%></li>
-</ul>
-<%= render 'messages/form' -%>
-<%= render @messages -%>
+%ul
+  %li.profilePic
+    = link_to(profile_image(@user, :S150x150), @user)
+  = render :partial => 'shared/follow_link', :locals => { :user => @user }
+  %li
+    = link_to "Followers", user_contacts_path(@user, :id => "followers")
+  %li
+    = link_to "Followings", user_contacts_path(@user, :id => "followings")
+= render 'messages/form'
+#messages
+  = render @messages

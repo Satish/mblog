@@ -1,0 +1,4 @@
+- [:message,:error,:notice].each do |f|
+  - if flash[f]
+    .flash{ :id => "flash_#{f.to_s}" }
+      = flash[f]

@@ -121,6 +121,10 @@ class User < ActiveRecord::Base
     user ? following_ids.include?(user.id) : false
   end
 
+  def destroy_contact_following(user)
+    contact_followings.find_by_following_id(user.id).destroy rescue nil
+  end
+  
   # ++++++++++++++++++++++++++++++ protected ++++++++++++++++++++++++++++++
   protected
 

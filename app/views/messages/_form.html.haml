@@ -1,4 +1,10 @@
-- form_for [@user, @message], :html => { :id => 'messageForm', :class => "messageForm" } do |f|
-  = f.error_messages
-  .formRow= f.text_area :body, :class => "textArea"
-  .formRow= f.submit 'Create', :class => "submitButton floatRight"
+#messageFormContainer
+  = javascript_tag "$(document).ready(function(){MessageView.updateMessageCharactersCount('#messageBody','#messageCharactersCount')});"
+
+  - form_for [@user, @message], :html => { :target => :messageFormIframe, :id => 'messageForm', :class => "messageForm" } do |f|
+    = error_messages_for :message, :class => "errorMessages", :id => "errorMessages"
+    %div{ :id => "messageCharactersCount", :class => "messageCharactersCount" }=  MAX_MESSAGE_LENGTH
+    .formRow= f.text_area :body, :class => "textArea", :tabindex => 1, :id => "messageBody"
+    .formRow= f.submit 'POST', :class => "submitButton floatRight #{'disabledSubmitButton' if (@message.body && @message.body.length == 0)}", :tabindex => 2, :disabled => (@message.body.length == 0)
+
+  %iframe{ :id => "messageFormIframe",  :name => "messageFormIframe", :style => "width: 0px; height: 0px; display: none;"}

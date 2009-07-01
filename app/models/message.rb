@@ -33,6 +33,12 @@ class Message < ActiveRecord::Base
     owner == user
   end
 
+  def self.search(query, options)
+    conditions = ["body like ?", "%#{query}%"] unless query.blank?
+    default_options = {:conditions => conditions, :order => "created_at DESC"}
+    
+    paginate default_options.merge(options)
+  end
 #  has_many :message_users, :dependent => :destroy
 
 end
