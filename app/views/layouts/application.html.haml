@@ -16,9 +16,10 @@
   %body#body
     #wrapper
       = render :partial => 'shared/header'
-      = render :partial => 'shared/flash', :object => flash
-      =# sexy_flash :timeout => 2, :duration => 0.1
       #container
+        = render :partial => 'shared/flash', :object => flash
+        =# sexy_flash :timeout => 2, :duration => 0.1
         #leftColumn= yield
-        #rightColumn= 'sidebar'#render :partial => 'shared/sidebar'
+        #rightColumn= yield :sidebar
+
       = render :partial => 'shared/footer'

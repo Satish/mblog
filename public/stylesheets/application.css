@@ -99,7 +99,7 @@ body#body {
     width: 75%;
     float: left; }
   #container #rightColumn {
-    width: 23%;
+    width: 22%;
     float: right; }
 
 #footer {
@@ -118,11 +118,14 @@ body#body {
   border-color: #dadada #555 #555 #dadada;
   padding: 2px 5px; }
 
+#messageFormContainer{
+  text-align:right;
+}
 .messageForm {
-  width: 522px; }
+  width: 100%; }
   .messageForm .textArea {
-    width: 500px;
-    height: 50px;
+    width: 80%;
+    height: 70px;
     border: 1px solid #dadada;
     padding: 5px; }
 
@@ -131,12 +134,48 @@ ul.message {
   padding: 10px;
   overflow: hidden; }
 
+ul.message:hover li.actions {
+  visibility:visible;
+}
+
 .message li.description {
-  width: 80%;
+  width: 75%;
   float: left; }
+
 .message li.actions {
-  width: 20%;
-  float: left; }
+  visibility:hidden;
+  width: 10%;
+  float: left;
+  text-align:right; }
+
+.showMessage{
+	background-image:url(/images/replyIcon.gif);
+}
+
+.deleteMessage{
+	background-image:url(/images/deleteIcon.gif);
+}
+
+.editMessage{
+	background-image:url(/images/editIcon.gif);
+}
+
+.addToFavorite{
+	background-image:url(/images/favoriteIcon.gif);
+}
+
+.shareMessage{
+	background-image:url(/images/shareIcon.gif);
+}
+
+.iconHover a:hover{
+	background-position:0px -19px;
+}
+
+.iconHover a{
+	background-repeat:no-repeat;
+  padding: 0px 0px 1px 15px;
+}
 
 .formRow {
   padding: 5px; }
@@ -167,6 +206,46 @@ input.disabledSubmitButton, input.disabledSubmitButton:hover {
   padding-right:5px;
   text-align:right;
 }
+
+ul.userDetails {
+  padding:5px 0px 10px 15px;
+}
+
+ul.userDetails li {
+  padding: 2px;
+}
+
+.followLink, .followers, .followings, .followers a, .followings a, .followLink a, .unfollowLink{
+  font-weight: bold;
+  font-size: 16px;
+  color: #AAA; 
+}
+
+.following {
+	background-image:url(/images/tickIcon.png);
+	background-repeat:no-repeat;
+  padding-left: 25px;
+}
+
+a.removeFollowing {
+  background-image:url(/images/iconClose.png);
+	background-repeat:no-repeat;
+  padding-left: 15px;
+  margin-left: 5px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 .fieldWithErrors input, .fieldWithErrors textarea {
   padding: 2px;
   border: 3px solid red; }

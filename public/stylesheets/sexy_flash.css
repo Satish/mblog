@@ -1,5 +1,4 @@
 .flash {
-  width: 815px !important;
   margin: 10px auto;
   padding: 15px 30px;
   -webkit-border-radius: 5px;
@@ -22,7 +21,6 @@
   margin: 10px auto;
   padding: 13px 10px 13px 50px;
   border: solid 1px;
-  width: 90%;
   background-repeat: no-repeat;
   background-position: 10px center;
   color: green;

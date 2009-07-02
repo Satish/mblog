@@ -1,5 +1,6 @@
 if (current_user.followings << @user)
-  page.replace "followUser_#{ @user.id }", :partial => "shared/follow_link", :locals => { :user => @user }
+  page.replace "followUser_#{ @user.reload.login }", :partial => "shared/follow_link", :locals => { :user => @user }
+  page.replace_html "#{ @user.login }s_followers", pluralize(@user.reload.followers_count, 'Follower')
 else
   page.render :nothing => true
 end

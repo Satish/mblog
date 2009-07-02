@@ -1,7 +1,11 @@
 %ul.message
+  %li{ :class => "floatLeft", :style => "float:left; margin-right:15px;" }= link_to(profile_image(message.owner, :S80x80), message.owner)
   %li.description= h message.body
   %li.actions
     - if message.owner?(current_user)
-      = link_to 'Show', message
-      = link_to 'Edit', edit_message_path(message)
-      = link_to 'Destroy', message, :confirm => "You want to delete this message.\nAre you sure?", :method => :delete
+      %ul
+        %li.iconHover=# link_to '&nbsp', message, :class => 'showMessage', :title => "Show This Message"
+        %li.iconHover=# link_to '&nbsp', edit_message_path(message), :class => 'editMessage', :title => "Edit This Message"
+        %li.iconHover= link_to '&nbsp;', message, :confirm => "You want to delete this message.\nAre you sure?", :method => :delete, :class => 'deleteMessage', :title => "Delete This Message"
+        %li.iconHover= link_to '&nbsp;', "#", :class => 'shareMessage', :title => "Share This Message"
+        %li.iconHover= link_to '&nbsp;', "#", :class => 'addToFavorite', :title => "Add to Favorite"

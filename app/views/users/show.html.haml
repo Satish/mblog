@@ -1,12 +1,7 @@
-%ul
-  %li.profilePic
-    = link_to(profile_image(@user, :S150x150), @user)
-  = render :partial => 'shared/follow_link', :locals => { :user => @user }
-  %li
-    = link_to "Followers", user_contacts_path(@user, :id => "followers")
-  %li
-    = link_to "Followings", user_contacts_path(@user, :id => "followings")
 = render :partial => 'messages/form', :locals => { :user => @user }
 #messages
   = render @messages
   = will_paginate @messages
+
+- content_for :sidebar do
+  = render :partial => "shared/sidebar"

@@ -19,7 +19,7 @@
 
 class Asset < ActiveRecord::Base
 
-  THUMBNAILS = { :S50x50 => "50x50", :S150x150 => "150x150", :S350x350 => "350x350" }
+  THUMBNAILS = { :S50x50 => "50x50", :S80x80 => "80x80", :S350x350 => "350x350" }
     
   validates_presence_of :owner_id, :attachable_id, :attachable_type
   
