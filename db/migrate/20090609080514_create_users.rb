@@ -7,7 +7,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string        :state,   :null => :no, :default => 'passive'
       t.string        :identity_url
       t.datetime      :activated_at, :deleted_at, :visited_at, :remember_token_expires_at
-      t.integer       :followers_count, :followings_count, :default => 0
+      t.integer       :followers_count, :followings_count, :owned_messages_count, :attached_messages_count, :addressed_messages_count, :default => 0
 
       t.timestamps
     end

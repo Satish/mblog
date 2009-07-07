@@ -31,6 +31,9 @@ class Message < ActiveRecord::Base
   belongs_to :owner, :class_name => 'User'
   belongs_to :attachable, :polymorphic => true
 
+  after_create :increment_messages_count
+  after_destroy :decrement_messages_count
+
   def owner?(user)
     owner == user
   end
@@ -46,5 +49,15 @@ class Message < ActiveRecord::Base
     paginate default_options.merge(options)
   end
 #  has_many :message_users, :dependent => :destroy
+
+    def increment_messages_count
+    owner.increment!(:owned_messages_count)
+    attachable.increment!(:attached_messages_count)
+  end
+
+  def decrement_messages_count
+    owner.decrement!(:owned_messages_count)
+    attachable.decrement!(:attached_messages_count)
+  end
 
 end

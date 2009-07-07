@@ -1,7 +1,7 @@
 class MessagesController < ApplicationController
 
   before_filter :login_required, :except => [:index]
-  before_filter :find_user, :except => [:index]
+  before_filter :find_user, :except => [:index, :destroy]
   before_filter :find_message, :only => [:show, :edit, :update, :destroy]
 
   # GET /messages
@@ -20,8 +20,6 @@ class MessagesController < ApplicationController
 #  # GET /messages/1
 #  # GET /messages/1.xml
 #  def show
-#    @message = Message.find(params[:id])
-#
 #    respond_to do |format|
 #      format.html # show.html.erb
 #      format.xml  { render :xml => @message }
@@ -69,8 +67,6 @@ class MessagesController < ApplicationController
   # PUT /messages/1
   # PUT /messages/1.xml
   def update
-    @message = Message.find(params[:id])
-
     respond_to do |format|
       if @message.update_attributes(params[:message])
         flash[:notice] = 'Message was successfully updated.'
@@ -86,8 +82,8 @@ class MessagesController < ApplicationController
   # DELETE /messages/1
   # DELETE /messages/1.xml
   def destroy
-    @message = Message.find(params[:id])
-    @message.destroy
+    @message.update_attribute(:deleted_at, Time.zone.now)
+#    @message.destroy
 
     respond_to do |format|
       format.html { redirect_to(messages_url) }
@@ -104,7 +100,7 @@ class MessagesController < ApplicationController
   end
 
   def find_message
-    @message = current_user.owned_message.find_by_id(params[:id])
+    @message = current_user.owned_messages.find_by_id(params[:id])
     redirect_to_root_path_with_error_message unless @message
   end
 
