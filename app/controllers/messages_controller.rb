@@ -1,7 +1,7 @@
 class MessagesController < ApplicationController
 
   before_filter :login_required, :except => [:index]
-  before_filter :find_user, :except => [:index, :destroy]
+  before_filter :find_user, :except => [:index, :edit, :update, :destroy]
   before_filter :find_message, :only => [:show, :edit, :update, :destroy]
 
   # GET /messages
@@ -26,7 +26,7 @@ class MessagesController < ApplicationController
 #    end
 #  end
 
-  # GET /messages/new
+  # GET /messages/new@user
   # GET /messages/new.xml
   def new
     @message = Message.new
