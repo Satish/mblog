@@ -1,3 +1,21 @@
 #footer
-  footer
+  .footer_body
+    = "&copy; #{ Time.now.year } &nbsp;"
+    %span
+      = link_to SITE_NAME, root_path
+    %span.verticle_line
+      = link_to 'Home', current_user ? messages_path : root_path
+    %span.verticle_line
+      = link_to 'About Us', "/about", :popup => true
+    %span.verticle_line
+      = link_to 'FAQ', "/faqs", :popup => true
+    %span.verticle_line
+      = link_to 'Blog', "/blog", :popup => true
+    %span.verticle_line
+      = link_to 'Terms', "/terms", :popup => true
+    %span.verticle_line
+      = link_to 'Privacy', "/privacy-policy", :popup => true
+    %span.verticle_line
+      =# link_to 'Developers', "/developers/API", :popup => true
+
   =# javascript_include_tag :all, :cache => true

@@ -35,6 +35,10 @@ class Message < ActiveRecord::Base
     owner == user
   end
 
+  def deleted?
+    !deleted_at.nil?
+  end
+
   def self.search(query, options)
     conditions = ["body like ?", "%#{query}%"] unless query.blank?
     default_options = {:conditions => conditions, :order => "created_at DESC"}
