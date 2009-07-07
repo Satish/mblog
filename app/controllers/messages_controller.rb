@@ -9,8 +9,8 @@ class MessagesController < ApplicationController
   def index
     options = { :page => params[:page], :include => [:owner] }
     @message = Message.new(:body => '')
-    @messages = logged_in? ? current_user.attached_messages.search(params[:query], options) : Message.search(params[:query], options)
-
+#    @messages = logged_in? ? current_user.attached_messages.search(params[:query], options) : Message.search(params[:query], options)
+    @messages = logged_in? ? current_user.search_paginated_messages(params[:query], options) : Message.search(params[:query], options)
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @messages }

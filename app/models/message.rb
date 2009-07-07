@@ -40,7 +40,7 @@ class Message < ActiveRecord::Base
   end
 
   def self.search(query, options)
-    conditions = ["body like ?", "%#{query}%"] unless query.blank?
+    conditions = ["body like ?", "%#{ query }%"] unless query.blank?
     default_options = {:conditions => conditions, :order => "created_at DESC"}
     
     paginate default_options.merge(options)

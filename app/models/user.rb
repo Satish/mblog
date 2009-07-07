@@ -129,6 +129,11 @@ class User < ActiveRecord::Base
     name.blank? ? login : name
   end
   
+  def search_paginated_messages(query, options)
+    options.merge(:order => 'created_at DESC')
+    Message.paginate_by_sql("SELECT messages.* from messages WHERE (messages.deleted_at is NULL AND messages.body like '%#{ query }%' ) AND (messages.owner_id = #{ self.id } OR (messages.attachable_type = 'User' AND messages.attachable_id = #{ self.id }) OR messages.owner_id IN (#{ self.following_ids.join(',') })) ORDER BY created_at DESC", options)
+  end
+
   # ++++++++++++++++++++++++++++++ protected ++++++++++++++++++++++++++++++
   protected
 
