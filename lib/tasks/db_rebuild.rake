@@ -9,6 +9,7 @@ namespace :db do
   task :insert_sample_data => :environment do
     Rake::Task["roles:create_defaults"].invoke
     Rake::Task["db:insert_admin_accounts"].invoke
+    Rake::Task["pages:create_defaults"].invoke
   end
 
   desc 'Insert admin accounts'
@@ -44,7 +45,7 @@ namespace :db do
       user.register!
       user.activate!
     end
-  end
+  end 
 
   desc 'Reset database and reload ALL sample data.'
   task :rebuild_from_scratch => :environment do

@@ -1,7 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
 
   # root path
-  map.root :controller =>'messages'
+  map.root :controller => 'messages'
 
   # user registration routes
   map.with_options :controller => 'users' do |user|
@@ -22,6 +22,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :users, :only => [:index] do |users|
      users.resources :contacts, :path_prefix => ":user_id", :only => [:index, :create], :collection => { :remove => :delete }
   end
+
+  map.page '/pages/:permalink', :controller => 'pages', :action => 'show'
   map.with_options :controller => 'users' do |users|
     users.user '/:id', :action => 'show', :conditions => { :method => :get }
   end

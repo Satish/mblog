@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: contacts
+#
+#  id           :integer(4)      not null, primary key
+#  follower_id  :integer(4)
+#  following_id :integer(4)
+#  created_at   :datetime
+#  updated_at   :datetime
+#
+
 class Contact < ActiveRecord::Base
 
   validates_presence_of :following_id, :follower_id

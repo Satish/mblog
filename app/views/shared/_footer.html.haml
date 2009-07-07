@@ -6,15 +6,15 @@
     %span.verticle_line
       = link_to 'Home', current_user ? messages_path : root_path
     %span.verticle_line
-      = link_to 'About Us', "/about", :popup => true
+      = link_to 'About Us', page_path(:permalink => 'about-us'), :popup => true
     %span.verticle_line
-      = link_to 'FAQ', "/faqs", :popup => true
+      = link_to 'FAQ', page_path(:permalink => 'faqs'), :popup => true
     %span.verticle_line
       = link_to 'Blog', "/blog", :popup => true
     %span.verticle_line
-      = link_to 'Terms', "/terms", :popup => true
+      = link_to 'Terms', page_path(:permalink => 'terms'), :popup => true
     %span.verticle_line
-      = link_to 'Privacy', "/privacy-policy", :popup => true
+      = link_to 'Privacy', page_path(:permalink => 'privacy-policy'), :popup => true
     %span.verticle_line
       =# link_to 'Developers', "/developers/API", :popup => true
 
