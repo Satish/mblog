@@ -1,3 +1,7 @@
-<%=h @user.login %>, your account has been activated.  Welcome aboard!
+Hi <%= @user.name_or_login %>,
 
-  <%=h @url %>
+Your account has been activated.  Welcome aboard!
+
+Login now: <%= h @url %>
+
+Thanks for joining our <%= h SITE_NAME %>!

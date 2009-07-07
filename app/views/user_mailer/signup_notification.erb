@@ -1,8 +1,11 @@
-Your account has been created.
+Hi <%= h @user.name_or_login %>
 
-  Username: <%=h @user.login %>
-  Password: <%=h @user.password %>
+You've signed up for an account on <%= h SITE_NAME %>, but we need to make sure you're real before we let you in.
 
-Visit this url to activate your account:
+All you need to do is click the activation link below and you're ready to go!
 
-  <%=h @url %>
+<%= h @url %>
+
+If clicking the link doesn't work, try pasting it into the address bar on your browser, and feel free to contact us at <%= h CONTACT_US_EMAIL %> if you have any questions.
+
+Cheers, <%= "#{ SITE_NAME }" %>

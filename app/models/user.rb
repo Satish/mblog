@@ -124,6 +124,10 @@ class User < ActiveRecord::Base
   def destroy_contact_following(user)
     contact_followings.find_by_following_id(user.id).destroy rescue nil
   end
+
+  def name_or_login
+    name.blank? ? login : name
+  end
   
   # ++++++++++++++++++++++++++++++ protected ++++++++++++++++++++++++++++++
   protected
