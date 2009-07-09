@@ -1,0 +1,13 @@
+= javascript_tag "$(document).ready(function(){ MessageView.updateMessageCharactersCount('#replyToMessageFormBody','#replyToMessageCharactersCount');})"
+#replyToMessageCharactersCount.messageCharactersCount
+  = MAX_MESSAGE_LENGTH
+- form_for(@message, :html => { :target => :replyToMessageFormIframe, :id => "replyToMessageForm", :class => "replyToMessageForm" }) do |f|
+  = error_messages_for :message
+  .formRow
+    = f.text_area :body, :id => "replyToMessageFormBody", :class => "replyToMessageFormBody", :tabindex => 10
+  = f.hidden_field :parent_node_id, :value => @message.parent_id || 0
+  = f.hidden_field :user_id, :value => @message.parent_id || 0
+  .formRow
+    = f.submit "REPLY", :tabindex => 11, :class => "submitButton floatRight", :disabled => "parseInt($('#descentant_message_body').attr('value').length) == 0"
+    =# link_to_function "Cancel", "ReplyToMessageForm.close()"
+%iframe#replyToMessageFormIframe{ :name => "replyToMessageFormIframe", :style => "width: 0px; height: 0px; display: none;" }

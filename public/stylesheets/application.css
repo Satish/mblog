@@ -128,11 +128,17 @@ body#body {
 }
 .messageForm {
   width: 100%; }
-  .messageForm .textArea {
+  .messageForm .textArea, .replyToMessageForm .replyToMessageFormBody {
     width: 80%;
     height: 70px;
     border: 1px solid #dadada;
     padding: 5px; }
+
+#replyToMessageFormContainer {
+  padding: 10px;
+}
+
+.replyToMessageForm .replyToMessageFormBody { width:97%; height:85px; }
 
 ul.message {
   border-bottom: 1px solid #ccc;
@@ -154,6 +160,10 @@ ul.message:hover li.actions {
   text-align:right; }
 
 .showMessage{
+	background-image:url(/images/replyIcon.gif);
+}
+
+.replyMessage{
 	background-image:url(/images/replyIcon.gif);
 }
 
@@ -204,7 +214,7 @@ input.disabledSubmitButton, input.disabledSubmitButton:hover {
   color:#B8B8B8;
 }
 
-#messageCharactersCount{
+.messageCharactersCount{
   font-size: 30px;
   color:#AAA;
   font-weight:bold;

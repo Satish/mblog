@@ -36,10 +36,10 @@ class User < ActiveRecord::Base
   named_scope :deleted, :conditions => { :state => 'deleted' }
   named_scope :suspended, :conditions => { :state => 'suspended' }
 
-  validates_presence_of     :login,    :case_sensitive => false
-  validates_length_of       :login,    :within => 3..40, :if => Proc.new{ |user| true unless user.login.blank? }
-  validates_uniqueness_of   :login
-  validates_format_of       :login,    :with => Authentication.login_regex, :message => Authentication.bad_login_message
+  validates_presence_of     :login,    :case_sensitive => false#, :if => :not_using_openid?
+  validates_length_of       :login,    :within => 3..40, :if => Proc.new{ |user| true unless user.login.blank? } and :not_using_openid?
+  validates_uniqueness_of   :login,    :case_sensitive => false#, :if => :not_using_openid?
+  validates_format_of       :login,    :with => Authentication.login_regex, :message => Authentication.bad_login_message#, :if => :not_using_openid?
 
   validates_format_of       :name,     :with => Authentication.name_regex,  :message => Authentication.bad_name_message, :allow_nil => true
   validates_length_of       :name,     :maximum => 100
@@ -48,6 +48,9 @@ class User < ActiveRecord::Base
   validates_length_of       :email,    :within => 6..100, :if => Proc.new{ |user| true unless user.email.blank? } #r@a.wk
   validates_uniqueness_of   :email,    :case_sensitive => false
   validates_format_of       :email,    :with => Authentication.email_regex, :message => Authentication.bad_email_message, :if => Proc.new{ |user| true unless user.email.blank? }
+
+  validates_uniqueness_of :identity_url, :unless => :not_using_openid?
+  validate :normalize_identity_url
 
   has_many :roles_users, :dependent => :destroy
   has_many :roles, :through => :roles_users
@@ -131,7 +134,17 @@ class User < ActiveRecord::Base
   
   def search_paginated_messages(query, options)
     options.merge(:order => 'created_at DESC')
-    Message.paginate_by_sql("SELECT messages.* from messages WHERE (messages.deleted_at is NULL AND messages.body like '%#{ query }%' ) AND (messages.owner_id = #{ self.id } OR (messages.attachable_type = 'User' AND messages.attachable_id = #{ self.id }) OR messages.owner_id IN (#{ self.following_ids.join(',') })) ORDER BY created_at DESC", options)
+    sql = "SELECT messages.* from messages WHERE ("
+    sql << "messages.deleted_at is NULL"
+    sql << "AND messages.body like '%#{ query }%'" unless query.blank?
+    sql <<  ") AND (messages.owner_id = #{ self.id } OR (messages.attachable_type = 'User' AND messages.attachable_id = #{ self.id })"
+    sql << " OR messages.owner_id IN (#{ self.following_ids.join(',') })" unless self.following_ids.blank?
+    sql << ") ORDER BY created_at DESC"
+    Message.paginate_by_sql(sql, options)
+  end
+
+  def unique_identifier
+    "@" + self.login
   end
 
   # ++++++++++++++++++++++++++++++ protected ++++++++++++++++++++++++++++++
@@ -140,6 +153,20 @@ class User < ActiveRecord::Base
   def make_activation_code
     self.deleted_at = nil
     self.activation_code = self.class.make_token
+  end
+
+  def not_using_openid?
+    identity_url.blank?
+  end
+
+  def password_required?
+    new_record? ? not_using_openid? && (crypted_password.blank? || !password.blank?) : !password.blank?
+  end
+
+  def normalize_identity_url
+    self.identity_url = OpenIdAuthentication.normalize_identifier(identity_url) unless identity_url.blank?
+  rescue URI::InvalidURIError
+    errors.add_to_base("Invalid OpenID URL")
   end
 
 end

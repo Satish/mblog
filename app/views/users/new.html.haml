@@ -15,5 +15,9 @@
   .formRow
     = f.label :password_confirmation, 'Confirm Password'
     = f.password_field :password_confirmation, :class => "fieldWidth"
+  = "...or use:"
+  .formRow
+    =# f.label :openid_url
+    =# f.text_field :openid_url, :class => "fieldWidth"
   .formRow
     = f.submit 'Sign Up', :class => "buttonLink"

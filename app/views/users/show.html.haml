@@ -1,7 +1,4 @@
 = render :partial => 'messages/form', :locals => { :user => @user }
-#messages
-  = render @messages
-  = will_paginate @messages
-
+= render :partial => 'messages/messages'
 - content_for :sidebar do
   = render :partial => "shared/sidebar"

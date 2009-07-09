@@ -9,7 +9,8 @@ class SessionsController < ApplicationController
   end
 
   def create
-    using_open_id? ? open_id_authentication : password_authentication(params[:name], params[:password])
+    logout_keeping_session!
+    using_open_id? ? open_id_authentication : password_authentication
   end
 
 #  def create
@@ -43,7 +44,7 @@ class SessionsController < ApplicationController
   # ++++++++++++++++++++++++++++++ protected ++++++++++++++++++++++++++++++
   protected
 
-  def password_authentication(name, password)
+  def password_authentication
     if @user = User.authenticate(params[:login], params[:password])
       successful_login
     else
@@ -87,22 +88,23 @@ class SessionsController < ApplicationController
     new_cookie_flag = (params[:remember_me] == "1")
     handle_remember_cookie! new_cookie_flag
     flash[:message] = "Logged in successfully"
-    redirect_back_or_default(@user.has_role?('admin') ? admin_root_path : user_path(@user))
+    redirect_back_or_default(@user.has_role?('admin') ? admin_root_path : root_path)
   end
 
   # Track failed login attempts
   def failed_login(message)
+    @remember_me = params[:remember_me]
     check_for_pending_account
-    flash[:error] = message ? message : "Couldn't log you in as '#{ params[:login] }'" unless flash[:notice]
+    flash.now[:error] = message ? message : "Couldn't log you in as '#{ params[:login] }'" unless flash[:notice]
     logger.warn "Failed login for '#{ params[:login] }' from #{ request.remote_ip } at #{ Time.zone.now }"
-    redirect_to login_path and return
+    render :new  #redirect_to login_path(:remember_me = params[:remember_me]) and return
   end
 
   # check for pending account
   def check_for_pending_account
     user = User.pending.find_by_login(params[:login]) || User.pending.find_by_identity_url(params[:openid_identifier])
     user = nil unless (user && user.authenticated?(params[:password])) unless params[:openid_identifier]
-    flash[:notice] = 'Please activate your account first by clicking on the link emailed to you' if user
+    flash.now[:notice] = 'Please activate your account first by clicking on the link emailed to you' if user
   end
 
 
