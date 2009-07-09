@@ -130,7 +130,7 @@ body#body {
   width: 100%; }
   .messageForm .textArea, .replyToMessageForm .replyToMessageFormBody {
     width: 80%;
-    height: 70px;
+    height: 75px;
     border: 1px solid #dadada;
     padding: 5px; }
 
@@ -299,6 +299,7 @@ a.removeFollowing {
   border: 1px solid;
   border-color: #ccc #aaa #aaa #ccc;
   background: #ffc url(/images/warning.gif) 15px 15px no-repeat;
+  text-align:left;
   }
 
 .errorMessages p {

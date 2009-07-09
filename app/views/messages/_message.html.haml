@@ -1,6 +1,6 @@
 %ul.message
   %li{ :class => "floatLeft", :style => "float:left; margin-right:15px;" }= link_to(profile_image(message.owner, :S80x80), message.owner)
-  %li.description= h message.body
+  %li.description= process_message_body(process_emails(h(message.body))) #h message.body
   %li.actions
     %ul
       - if message.owner?(current_user)

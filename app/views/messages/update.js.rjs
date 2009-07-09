@@ -1,0 +1,6 @@
+if @message.update_attributes(params[:message])
+  flash[:notice] = "Message was successfully updated."
+  page.redirect_to params[:source]
+else
+  page.replace "editMessageFormContainer", :partial => "form", :locals => { :user => @message.attachable }
+end

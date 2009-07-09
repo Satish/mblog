@@ -21,18 +21,32 @@ class Message < ActiveRecord::Base
 
   @@per_page = 20
   cattr_reader :per_page
-  default_scope :order => "created_at DESC"
 
-  #attr_accessible :body
+  attr_accessor :parent_node_id
+
+  default_scope :order => "created_at DESC"
+  named_scope :active, :conditions => { :deleted_at => nil }
+  named_scope :deleted, :conditions => { :deleted_at => !nil }
 
   validates_presence_of :body, :owner_id, :attachable_id, :attachable_type
-  validates_length_of :body, :maximum => MAX_MESSAGE_LENGTH
+  validates_length_of :body, :maximum => MAX_MESSAGE_LENGTH, :if => Proc.new { |m| m.body.gsub(/\r\n|\n\r|\n|\r/,"").length > MAX_MESSAGE_LENGTH }
+
+  has_many :message_users, :dependent => :destroy
+  has_many :addressed_users, :through => :message_users, :source => :user
 
   belongs_to :owner, :class_name => 'User'
   belongs_to :attachable, :polymorphic => true
 
-  after_create :increment_messages_count
-  after_destroy :decrement_messages_count
+  after_create :process_addressed_users, :assign_parent_to_message, :increment_message_counters#, :deliver_notification
+  before_destroy :decrement_message_counters
+
+
+  def validate
+    if parent_node_id
+      @parent_node = Message.active.find_by_id(parent_node_id)
+      errors.add_to_base("The message you are replying to may have been deleted by the owner!") unless @parent_node
+    end
+  end
 
   def owner?(user)
     owner == user
@@ -50,14 +64,34 @@ class Message < ActiveRecord::Base
   end
 #  has_many :message_users, :dependent => :destroy
 
-    def increment_messages_count
+  def process_addressed_users
+    body.scan(/@\w[\w\.\-_]+/).uniq.collect{ |u| u.gsub!(/^@/,'') }.each do |login|
+      user = User.active.find_by_login(login)
+      self.addressed_users << user if user
+    end
+  end
+
+  def assign_parent_to_message
+    if @parent_node
+      self.move_to_child_of(@parent_node)
+      self.update_attribute(:attachable, @parent_node.attachable)
+      self.ancestors.each{ |a| a.update_attribute(:updated_at, Time.zone.now) }
+    end
+  end
+
+  def increment_message_counters
     owner.increment!(:owned_messages_count)
     attachable.increment!(:attached_messages_count)
   end
 
-  def decrement_messages_count
+  def decrement_message_counters
     owner.decrement!(:owned_messages_count)
     attachable.decrement!(:attached_messages_count)
+  end
+
+  def deliver_notification
+    NotificationWorker.async_email_on_new_reply(:receiver_id => self.root.owner.id, :sender_id => self.owner.id, :message_id => self.id) unless (self.root? || !self.root.owner.notification.email_on_new_reply || (self.owner == self.root.owner) || !self.root.owner.active?)
+    NotificationWorker.async_email_on_group_post(:message_id => self.id) if self.target.is_a?(Group)
   end
 
 end

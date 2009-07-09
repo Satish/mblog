@@ -1,7 +1,11 @@
 if @message.save
   page.insert_html :top, "messages", :partial => "message", :locals => { :message => @message }
-  @message = Message.new(:body => '')
-  page.replace "messageFormContainer", :partial => "form", :locals => { :user => @user }
+  unless @message.parent_id
+    @message = Message.new(:body => '')
+    page.replace "messageFormContainer", :partial => "form", :locals => { :user => @user }
+  else
+    page.ReplyToMessageForm.close()
+  end
 else
   page.replace "messageFormContainer", :partial => "form", :locals => { :user => @user }
 end

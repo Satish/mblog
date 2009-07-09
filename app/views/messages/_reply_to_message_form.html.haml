@@ -6,7 +6,7 @@
   .formRow
     = f.text_area :body, :id => "replyToMessageFormBody", :class => "replyToMessageFormBody", :tabindex => 10
   = f.hidden_field :parent_node_id, :value => @message.parent_id || 0
-  = f.hidden_field :user_id, :value => @message.parent_id || 0
+  = hidden_field_tag :user_id, @attachable.login
   .formRow
     = f.submit "REPLY", :tabindex => 11, :class => "submitButton floatRight", :disabled => "parseInt($('#descentant_message_body').attr('value').length) == 0"
     =# link_to_function "Cancel", "ReplyToMessageForm.close()"

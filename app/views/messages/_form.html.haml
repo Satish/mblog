@@ -3,10 +3,11 @@
 
   - form_for @message.new_record? ? [user, @message] : @message, :html => { :target => :messageFormIframe, :id => 'messageForm', :class => "messageForm" } do |f|
     = error_messages_for :message, :class => "errorMessages", :id => "errorMessages"
-    %div{ :id => "messageCharactersCount", :class => "messageCharactersCount" }=  MAX_MESSAGE_LENGTH
+    %div{ :id => "messageCharactersCount", :class => "messageCharactersCount" }=  MAX_MESSAGE_LENGTH - @message.body.length
     .formRow
       = link_to(profile_image(current_user, :S80x80), current_user, :style => "float:left;")
-      = f.text_area :body, :class => "textArea", :tabindex => 1, :id => "messageBody"
+      = f.text_area :body, :value => get_message_value(user, @message), :class => "textArea", :id => "messageBody", :tabindex => 1
+      = hidden_field_tag :source, @source
     .formRow= f.submit 'POST', :class => "submitButton floatRight #{'disabledSubmitButton' if (@message.body && @message.body.length == 0)}", :tabindex => 2, :disabled => (@message.body.length == 0)
 
   %iframe{ :id => "messageFormIframe",  :name => "messageFormIframe", :style => "width: 0px; height: 0px; display: none;"}

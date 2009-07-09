@@ -20,6 +20,7 @@ class Contact < ActiveRecord::Base
   after_create :increment_contacts_count
   after_destroy :decrement_contacts_count
 
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~ protected ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   protected
 
   def validate

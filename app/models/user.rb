@@ -64,6 +64,9 @@ class User < ActiveRecord::Base
   has_many :owned_messages, :class_name => 'Message', :foreign_key => 'owner_id', :dependent => :destroy
   has_many :attached_messages, :class_name => 'Message', :as => :attachable
 
+  has_many :message_users, :dependent => :destroy
+  has_many :addressed_messages, :through => :message_users, :source => :message
+
   has_one :profile_image, :as => :attachable, :dependent => :destroy
 
 #  has_many :assets, :as => :attachable, :dependent => :destroy
@@ -132,16 +135,29 @@ class User < ActiveRecord::Base
     name.blank? ? login : name
   end
   
-  def search_paginated_messages(query, options)
-    options.merge(:order => 'created_at DESC')
+  def paginate_and_search_dashboard_messages(query, options)
+#    options.merge(:order => 'created_at DESC')
     sql = "SELECT messages.* from messages WHERE ("
     sql << "messages.deleted_at is NULL"
     sql << "AND messages.body like '%#{ query }%'" unless query.blank?
     sql <<  ") AND (messages.owner_id = #{ self.id } OR (messages.attachable_type = 'User' AND messages.attachable_id = #{ self.id })"
     sql << " OR messages.owner_id IN (#{ self.following_ids.join(',') })" unless self.following_ids.blank?
-    sql << ") ORDER BY created_at DESC"
+    sql << ") UNION SELECT messages.* FROM messages JOIN message_users on (message_users.message_id = messages.id AND message_users.user_id = #{ self.id })"
+    sql << "ORDER BY created_at DESC"
     Message.paginate_by_sql(sql, options)
   end
+
+  def paginate_and_search_profile_messages(query, options)
+    sql = "SELECT messages.* from messages WHERE ("
+    sql << "messages.deleted_at is NULL"
+    sql << "AND messages.body like '%#{ query }%'" unless query.blank?
+    sql <<  ") AND messages.owner_id = #{ self.id }"
+#    sql << " OR messages.owner_id IN (#{ self.following_ids.join(',') })" unless self.following_ids.blank?
+    sql << " UNION SELECT messages.* FROM messages JOIN message_users on (message_users.message_id = messages.id AND message_users.user_id = #{ self.id })"
+    sql << " ORDER BY created_at DESC"
+    Message.paginate_by_sql(sql, options)
+  end
+
 
   def unique_identifier
     "@" + self.login

@@ -44,7 +44,7 @@ var ReplyToMessageForm = {
                                                overlay:
                                                        {
                                                          background: '#000',
-                                                         opacity: 0.5
+                                                         opacity: 0.6
                                                        },
                                                 title: 'Your Reply'
                                               });

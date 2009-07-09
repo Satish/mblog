@@ -50,7 +50,9 @@ class UsersController < ApplicationController
   def show
     @message = Message.new(:body => '')
     options = { :page => params[:page], :include => [:owner] }
-    @messages = @user.owned_messages.search(params[:query], options)
+#    @messages = @user.owned_messages.search(params[:query], options)
+    @messages = @user.paginate_and_search_profile_messages(params[:query], options)
+    @attachable = @user
   end
 
   def destroy

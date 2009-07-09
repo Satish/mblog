@@ -1,4 +1,4 @@
-= render :partial => "messages/reply_to_message_form_container"
+= render :partial => "messages/reply_to_message_form_container" if logged_in?
 #messages
   = render @messages
   = will_paginate @messages

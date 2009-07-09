@@ -1,2 +1,3 @@
 %h1 Editing message
-= render :partial => 'form'
+#editMessageFormContainer
+  = render :partial => 'form', :locals => { :user => @message.attachable }

@@ -1,7 +1,7 @@
 class MessagesController < ApplicationController
 
   before_filter :login_required, :except => [:index]
-  before_filter :find_user, :except => [:index, :edit, :update, :destroy]
+  before_filter :find_user, :only => [:new, :create]
   before_filter :find_message, :only => [:show, :edit, :update, :destroy]
 
   # GET /messages
@@ -10,7 +10,8 @@ class MessagesController < ApplicationController
     options = { :page => params[:page], :include => [:owner] }
     @message = Message.new(:body => '')
 #    @messages = logged_in? ? current_user.attached_messages.search(params[:query], options) : Message.search(params[:query], options)
-    @messages = logged_in? ? current_user.search_paginated_messages(params[:query], options) : Message.search(params[:query], options)
+    @messages = logged_in? ? current_user.paginate_and_search_dashboard_messages(params[:query], options) : Message.search(params[:query], options)
+    @attachable = current_user
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @messages }
@@ -38,13 +39,16 @@ class MessagesController < ApplicationController
   end
 
   # GET /messages/1/edit
-  def edit; end
+  def edit
+    @source = request.env['HTTP_REFERER'] ? request.env['HTTP_REFERER'] : root_path
+  end
 
   # POST /messages
   # POST /messages.xml
   def create
     @message = current_user.owned_messages.new(params[:message])
     @message.attachable = @user
+
     if request.format.xml? || request.format.json?
       respond_to do |format|
         if @message.save
@@ -67,14 +71,22 @@ class MessagesController < ApplicationController
   # PUT /messages/1
   # PUT /messages/1.xml
   def update
-    respond_to do |format|
-      if @message.update_attributes(params[:message])
-        flash[:notice] = 'Message was successfully updated.'
-        format.html { redirect_to(@message) }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @message.errors, :status => :unprocessable_entity }
+    if request.format.xml? || request.format.json?
+      respond_to do |format|
+        if @message.update_attributes(params[:message])
+          flash[:notice] = 'Message was successfully updated.'
+          format.html { redirect_to(@message) }
+          format.xml  { head :ok }
+        else
+          format.html { render :action => "edit" }
+          format.xml  { render :xml => @message.errors, :status => :unprocessable_entity }
+        end
+      end
+    else
+      responds_to_parent do
+        respond_to do |format|
+          format.js
+        end
       end
     end
   end
