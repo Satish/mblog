@@ -1,0 +1,11 @@
+#unless params[:source].blank?
+#  flash[:notice] = "Your private message to #{ @private_message.receiver.login } has been sent!"
+#  page.redirect_to params[:source]
+#else
+
+unless @private_message.new_record?
+  page.insert_html :top, "#outbox_root_messages", :partial=> @private_message
+  page.flash_message.show("Your private message to #{@private_message.receiver.login} has been sent!") if params[:source].blank?
+  @private_message  = PrivateMessage.new(:message => "")
+end
+page.replace 'privateMessageForm', :partial=> 'form'

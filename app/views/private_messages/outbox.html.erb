@@ -1,0 +1,20 @@
+<% content_for :title, "Outbox" %>
+
+<%= render :partial=> 'form' %>
+
+<div class="inbox_sent_body">
+  <div class="<%= current_page?(inbox_path) ? 'inbox_tab' : 'sent_tab' %>"><%= link_to "inbox", inbox_path %></div>
+  <div class="<%= current_page?(inbox_path) ? 'sent_tab' : 'inbox_tab' %>"><%= link_to "sent", outbox_path %></div>
+</div>
+
+<p style="clear: both; font-size: 18px;">Private Messages You've Sent</p>
+<div class="right_hr_line"></div>
+<div class="content">
+  <ul id="outbox_root_messages" class="parent">
+    <%= render :partial=> @private_messages %>
+  </ul>
+</div>
+
+<div class="buttons_body">
+  <%= will_paginate @private_messages, :page_links => false, :previous_label => "Newer", :next_label => "Older" %>
+</div>

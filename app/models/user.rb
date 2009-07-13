@@ -78,6 +78,9 @@ class User < ActiveRecord::Base
   has_many :favorites, :dependent => :destroy
   has_many :favorite_messages, :through => :favorites, :source => :message
 
+  has_many :inbox_messages, :class_name=> 'PrivateMessage', :foreign_key => 'receiver_id', :conditions => "receiver_deleted=0"
+  has_many :outbox_messages, :class_name=> 'PrivateMessage', :foreign_key => 'sender_id', :conditions => "sender_deleted=0"
+
 #  has_many :assets, :as => :attachable, :dependent => :destroy
 
   # HACK HACK HACK -- how to do attr_accessible from here?
@@ -138,6 +141,10 @@ class User < ActiveRecord::Base
 
   def following?(user)
     user ? following_ids.include?(user.id) : false
+  end
+
+  def followed_by?(follower_id)
+    follower_ids.include?(follower_id)
   end
 
   def destroy_contact_following(user)

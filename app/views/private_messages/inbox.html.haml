@@ -1,0 +1,27 @@
+<% content_for :title, "Inbox" %>
+
+<%= render :partial=> 'form' %>
+
+<div class="inbox_sent_body">
+  <div class="<%= current_page?(inbox_path) ? 'inbox_tab' : 'sent_tab' %>"><%= link_to "inbox", inbox_path %></div>
+  <div class="<%= current_page?(inbox_path) ? 'sent_tab' : 'inbox_tab' %>"><%= link_to "sent", outbox_path %></div>
+  <div class="replies_star">
+    <% unread_count = current_user.inbox_messages.unread.count %>
+    <% unless unread_count == 0 %>
+      <%= image_tag "replies_star.gif", :width=> "24", :height=> "23", :style=> "margin-bottom: -5px;" %>
+      <%= "#{unread_count } New" %>
+    <% end %>
+  </div>
+</div>
+
+<p style="clear: both; font-size: 18px;">Private Messages Sent Only to You</p>
+<div class="right_hr_line"></div>
+<div class="content">
+  <ul id="inbox_root_messages" class="parent">
+    <%= render :partial=> @private_messages %>
+  </ul>
+</div>
+
+<div class="buttons_body">
+  <%= will_paginate @private_messages, :page_links => false, :previous_label => "Newer", :next_label => "Older" %>
+</div>

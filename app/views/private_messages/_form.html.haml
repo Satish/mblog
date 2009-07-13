@@ -1,0 +1,15 @@
+= javascript_tag "$(document).ready(function(){ MessageView.updateMessageCharactersCount('#privateMessageBody','#privateMessageCharactersCount') });"
+#privateMessageFormContainer
+  - form_for @private_message, :html => { :target => "privateMessageFormIframe", :id => "privateMessageForm" } do |f|
+    = f.error_messages
+    .formRow{:style => "font-size:20px;"}
+      Send
+      = f.select "receiver_id", receiver_options_for_select, {}, :onchange=> "$('#private_message_parent_id').attr('value', '')", :style => "margin: 0px 8px; font-size: 20px;"
+      a private message
+      %div.messageCharactersCount#privateMessageCharactersCount= MAX_MESSAGE_LENGTH
+    .formRow
+      = f.text_area 'message', :class => "textArea", :id => "privateMessageBody", :tabindex => 1
+      = f.hidden_field :parent_id
+      = hidden_field_tag 'source', params[:source]
+    .formRow= f.submit 'SEND', :class => "submitButton floatRight #{'disabledSubmitButton' if (@private_message.message.length == 0)}", :tabindex => 2, :disabled => (@private_message.message.length == 0)
+  %iframe{ :id => "privateMessageFormIframe", :name => "privateMessageFormIframe",  :style => "width: 0px; height: 0px; display: none;" }

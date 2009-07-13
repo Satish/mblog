@@ -41,8 +41,11 @@ body#body { font-size: 85%; background-color: #f0f0f0; }
 
 #messageFormContainer{ text-align:right; }
 .messageForm { width: 100%; }
-.messageForm .textArea, .replyToMessageForm .replyToMessageFormBody { width: 80%; height: 75px; border: 1px solid #dadada; padding: 5px; }
+.messageForm .textArea, .replyToMessageForm .replyToMessageFormBody, #privateMessageForm textarea { width: 80%; height: 75px; border: 1px solid #dadada; padding: 5px; }
 #replyToMessageFormContainer { padding: 10px; }
+#privateMessageForm { width: 96%}
+#privateMessageForm #privateMessageBody { height: 60px;}
+#privateMessageForm textarea { width: 98%}
 .replyToMessageForm .replyToMessageFormBody { width:97%; height:85px; }
 ul.message { border-bottom: 1px solid #ccc; padding: 10px; overflow: hidden; }
 ul.message:hover li.actions { visibility:visible; }
