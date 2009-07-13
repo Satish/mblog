@@ -1,0 +1,21 @@
+- form_for current_user, :url => update_notices_path(:form_id => 'edit_notices_form'), :html => { :target => :editAccountFormIframe, :method => :put, :id => 'edit_notices_form' } do |f|
+  - fields_for current_user.notification do |notification|
+    = error_messages_for :notifications
+    .formRow
+      = notification.label :email_on_new_follower, nil, :class => 'notification'
+      = notification.check_box :email_on_new_follower, :class => "fieldWidth"
+      %span{ :class => "moreInfo" }= "Email when someone starts following me"
+    .formRow
+      = notification.label :email_on_new_direct_message, nil, :class => 'notification'
+      = notification.check_box :email_on_new_direct_message, :class => "fieldWidth"
+      %span{ :class => "moreInfo" }= "Email when I receive a new direct message"
+    .formRow
+      = notification.label :email_on_new_reply, nil, :class => 'notification'
+      = notification.check_box :email_on_new_reply, :class => "fieldWidth"
+      %span{ :class => "moreInfo" }= "Email when I receive a new reply"
+    .formRow
+      = notification.label :email_newsletter, nil, :class => 'notification'
+      = notification.check_box :email_newsletter, :class => "fieldWidth"
+      %span{ :class => "moreInfo" }= "Please email me news, updates and other information!"
+  .formRow
+    = f.submit 'Save!', :class => "buttonLink notificationSave"

@@ -1,0 +1,25 @@
+- form_for current_user, :url => update_account_path(:form_id => 'form'), :html => { :target => :editAccountFormIframe, :method => :put, :id => 'form' } do |f|
+  = f.error_messages
+  .formRow
+    = f.label :login
+    = f.text_field :login, :class => "fieldWidth"
+  .formRow
+    = f.label :email
+    = f.text_field :email, :class => "fieldWidth"
+  .formRow
+    = f.label :timezone
+    = f.time_zone_select :timezone, PRIORITY_ZONES, {}, :class => "fieldWidth"
+  .formRow
+    = f.label :url
+    = f.text_field :url, :class => "fieldWidth"
+  .formRow
+    = f.label :bio
+    = f.text_field :bio, :class => "fieldWidth fieldHeight"
+  .formRow
+    = f.label :location
+    = f.text_field :location, :class => "fieldWidth"
+  .formRow
+    = f.label :lang
+    = f.text_field :lang, :class => "fieldWidth"
+  .formRow
+    = f.submit 'Save!', :class => "buttonLink"

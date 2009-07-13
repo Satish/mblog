@@ -1,0 +1,5 @@
+page.replace @form_id, :partial => @form_id
+if @status
+  page.replace_html 'successMessage', @success_message
+  page << "successMessage.open()"
+end
