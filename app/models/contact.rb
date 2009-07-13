@@ -17,7 +17,7 @@ class Contact < ActiveRecord::Base
   belongs_to :following, :class_name => 'User'
   belongs_to :follower, :class_name => 'User'
 
-  after_create :increment_contacts_count
+  after_create :increment_contacts_count, :deliver_notification
   after_destroy :decrement_contacts_count
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~ protected ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -37,6 +37,10 @@ class Contact < ActiveRecord::Base
   def decrement_contacts_count
     follower.decrement!(:followings_count)
     following.decrement!(:followers_count)
+  end
+
+  def deliver_notification
+    NotificationMailer.deliver_email_on_new_follower(following, follower) if following.notification.email_on_new_follower?
   end
 
 end

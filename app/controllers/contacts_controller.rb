@@ -18,7 +18,6 @@ class ContactsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.js
-      format.xml  { }
     end
   end
 
@@ -26,7 +25,6 @@ class ContactsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.js
-      format.xml  { }
     end
   end
 

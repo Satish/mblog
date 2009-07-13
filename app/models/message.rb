@@ -37,7 +37,7 @@ class Message < ActiveRecord::Base
   belongs_to :owner, :class_name => 'User', :include => [:profile_image]
   belongs_to :attachable, :polymorphic => true
 
-  after_create :process_addressed_users, :assign_parent_to_message, :increment_message_counters#, :deliver_notification
+  after_create :process_addressed_users, :assign_parent_to_message, :increment_message_counters, :deliver_notification
   before_destroy :decrement_message_counters
 
 
@@ -96,8 +96,7 @@ class Message < ActiveRecord::Base
   end
 
   def deliver_notification
-    NotificationWorker.async_email_on_new_reply(:receiver_id => self.root.owner.id, :sender_id => self.owner.id, :message_id => self.id) unless (self.root? || !self.root.owner.notification.email_on_new_reply || (self.owner == self.root.owner) || !self.root.owner.active?)
-    NotificationWorker.async_email_on_group_post(:message_id => self.id) if self.target.is_a?(Group)
+    NotificationMailer.deliver_email_on_new_reply(root.owner, owner, self) if (!root? && root.owner.notification.email_on_new_reply && (owner != root.owner) && root.owner.active?)
   end
 
 end

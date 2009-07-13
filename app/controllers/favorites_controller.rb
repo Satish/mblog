@@ -17,7 +17,12 @@ class FavoritesController < ApplicationController
     end
   end
 
-  def create;  end
+  def create
+    respond_to do |format|
+      format.html { redirect_to root_path }
+      format.js
+    end
+  end
 
   def destroy
     @favorite = current_user.favorites.find_by_message_id(@message.id)

@@ -1,0 +1,8 @@
+%div{ :style => "padding:10px 0px"}
+  %h1{ :style => "font-size:16px" }= "Hi, #{ h(@receiver.name) }"
+  %p{ :style => "padding:5px 0px" }= "#{ h @sender.name } (#{ link_to h(@sender.login), user_url(@sender, :host => SITE_NAME ) }) just sent you a private message on #{ SITE_NAME }."
+  %p{ :style => "padding:5px 0px" }= h(@private_message.message)
+  %p{ :style => "padding:5px 0px 2px 0px" }= You can login and reply here:
+  %p{ :style => "padding:5px 0px" }= 'url'
+  %p{ :style => "padding:10px 0px" }= "Turn off your notification preferences here: #{ edit_account_url(:host => SITE_NAME) }."
+  %p{ :style => "padding:30px 0px" }= SITE

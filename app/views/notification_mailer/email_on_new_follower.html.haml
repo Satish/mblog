@@ -1,0 +1,7 @@
+%div{ :style => "padding:10px 0px"}
+  %h1{ :style => "font-size:16px" }= "Hi, #{ h(@receiver.name) }"
+  %p{ :style => "padding:5px 0px" }= "#{ h(@sender.name) } (#{ link_to h(@sender.login), user_url(@sender, :host => SITE_NAME ) }) is now following you on #{ SITE_NAME }."
+  %p{ :style => "padding:5px 0px" }= "You may follow #{ @sender.login } as well by clicking on the 'follow' button on their #{ link_to 'profile', user_url(@sender, :host => SITE_NAME ) }."
+  %p{ :style => "padding:5px 0px" }= "If clicking the link doesn't work, try pasting #{ user_url(@sender, :host => SITE_NAME ) } into the address bar on your browser, and feel free to contact us at #{ CONTACT_US_EMAIL } if you have any questions."
+  %p{ :style => "padding:10px 0px" }= "Turn off your notification preferences here: #{ edit_account_url(:host => SITE_NAME) }."
+  %p{ :style => "padding:30px 0px" }= SITE
