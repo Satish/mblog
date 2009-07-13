@@ -41,7 +41,8 @@ class UsersController < ApplicationController
   end
 
   def update_password
-    @status = current_user.verify_and_update_password(params[:user])
+    current_user.password_update = true
+    @status = current_user.update_password(params[:user])
     @success_message = "Password Updated Successfully." and   current_user.current_password = current_user.password = current_user.password_confirmation = nil if @status
     render_update
   end
