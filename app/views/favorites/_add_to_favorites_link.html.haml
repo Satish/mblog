@@ -1,0 +1,4 @@
+- unless current_user.favorite_message_ids.include?(message.id)
+  = link_to_remote '', :url => user_favorites_path(current_user, :id => message.id), :html => { :class => 'addToFavorite', :id => "message_#{ message.id }_add_to_favorite_link", :title => 'Add to Favorites'}
+- else
+  = link_to_remote '', :url => user_favorite_path(current_user, :id => message.id), :method => :delete, :html => { :class => 'favoritePost', :id => "message_#{ message.id }_remove_from_favorite_link", :title => "Remove from Favorites" }

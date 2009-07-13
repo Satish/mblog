@@ -1,0 +1,5 @@
+if @favorite.destroy
+  page.replace "message_#{ @message.id }_remove_from_favorite_link", :partial => 'favorites/add_to_favorites_link', :locals => { :message => @message }
+  page.alert(current_user.favorite_messages_count.to_s + "  "+ favoriteMessagesCount_dom_id)
+  page.replace_html favoriteMessagesCount_dom_id, pluralize(current_user.favorite_messages_count, 'Favorite') if favoriteMessagesCount_dom_id
+end

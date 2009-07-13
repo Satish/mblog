@@ -1,0 +1,5 @@
+if current_user.favorite_messages << @message
+  page.replace "message_#{ @message.id }_add_to_favorite_link", :partial => 'favorites/add_to_favorites_link', :locals => { :message => @message }
+  favoriteMessagesCount_dom_id = "#{ h(current_user.login) }s_favorites"
+  page.replace_html favoriteMessagesCount_dom_id, pluralize(current_user.favorite_messages_count, 'Favorite') if favoriteMessagesCount_dom_id
+end

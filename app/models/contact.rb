@@ -39,5 +39,4 @@ class Contact < ActiveRecord::Base
     following.decrement!(:followers_count)
   end
 
-
 end

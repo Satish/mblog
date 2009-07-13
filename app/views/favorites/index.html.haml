@@ -1,0 +1,4 @@
+%h1= (current_user == @user ? "Your " : "#{ @user.login.capitalize }'s ")  + "Favorites"
+= render :partial => 'messages/messages'
+- content_for :sidebar do
+  = render :partial => "shared/sidebar"

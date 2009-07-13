@@ -6,3 +6,6 @@
     = link_to pluralize(@user.followers_count, 'Follower'), user_contacts_path(@user, :id => "followers"), :id => "#{ h(@user.login) }s_followers"
   %li.followings
     = link_to pluralize(@user.followings_count, 'Following'), user_contacts_path(@user, :id => "followings"), :id => "#{ h(@user.login) }s_followings"
+  %li.favorites
+    = link_to pluralize(@user.favorite_messages_count, 'Favorites'), user_favorites_path(@user), :id => "#{ h(@user.login) }s_favorites"
+    

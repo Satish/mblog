@@ -75,6 +75,9 @@ class User < ActiveRecord::Base
   has_one :profile_image, :as => :attachable, :dependent => :destroy
   has_one :notification, :dependent => :destroy
 
+  has_many :favorites, :dependent => :destroy
+  has_many :favorite_messages, :through => :favorites, :source => :message
+
 #  has_many :assets, :as => :attachable, :dependent => :destroy
 
   # HACK HACK HACK -- how to do attr_accessible from here?

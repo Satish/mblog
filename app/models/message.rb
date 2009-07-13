@@ -24,7 +24,7 @@ class Message < ActiveRecord::Base
 
   attr_accessor :parent_node_id
 
-  default_scope :order => "created_at DESC"
+  default_scope :order => "messages.created_at DESC"
   named_scope :active, :conditions => { :deleted_at => nil }
   named_scope :deleted, :conditions => { :deleted_at => !nil }
 
