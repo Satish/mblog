@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   
   # Protect these actions behind an admin login
   # before_filter :admin_required, :only => [:suspend, :unsuspend, :destroy, :purge]
-  before_filter :login_required, :only => [:show]
+  before_filter :login_required, :except => [:new, :index, :create, :activate]
   before_filter :find_user, :only => [:show]
   
   def index
@@ -15,7 +15,11 @@ class UsersController < ApplicationController
   def new
     @user = User.new
   end
- 
+
+  def edit
+    @user = current_user
+  end
+
   def create
     logout_keeping_session!
     @user = User.new(params[:user])
@@ -28,6 +32,38 @@ class UsersController < ApplicationController
 #      flash[:error]  = "We couldn't set up that account, sorry.  Please try again, or contact an admin (link is above)."
       render :action => 'new'
     end
+  end
+
+  def update
+    @status = current_user.update_attributes(params[:user])
+    @success_message = "Profile Updated Successfully." if @status
+    render_update
+  end
+
+  def update_password
+    @status = current_user.verify_and_update_password(params[:user])
+    @success_message = "Password Updated Successfully." and   current_user.current_password = current_user.password = current_user.password_confirmation = nil if @status
+    render_update
+  end
+
+  def update_picture
+    if params[:profile_image]
+      if @profile_image = current_user.profile_image
+        @status = @profile_image.update_attributes(:uploaded_data => params[:profile_image])
+      else
+        @profile_image = ProfileImage.new(:uploaded_data => params[:profile_image])
+        @profile_image.owner = @profile_image.attachable = current_user
+        @status = @profile_image.save
+      end
+    end
+    @success_message = "Profile Image Updated Successfully." if @status
+    render_update
+  end
+
+  def update_notices
+    @status = current_user.notification.update_attributes( params[:notification])
+    @success_message = "Notification updated successfully" if @status
+    render_update
   end
 
   def activate
@@ -60,21 +96,23 @@ class UsersController < ApplicationController
     redirect_to users_path
   end
 
-#  def purge
-#    @user.destroy
-#    redirect_to users_path
-#  end
-  
-  # There's no page here to update or destroy a user.  If you add those, be
-  # smart -- make sure you check that the visitor is authorized to do so, that they
-  # supply their old password along with a new one to update it, etc.
-
   # ++++++++++++++++++++++++++++++ protected ++++++++++++++++++++++++++++++
   protected
 
   def find_user
     @user = User.find_by_login(params[:id])
     redirect_to_root_path_with_error_message unless @user
+  end
+
+  def render_update
+    responds_to_parent do
+      respond_to do |format|
+        format.js do
+          @form_id = params[:form_id]
+          render :action => 'update'
+        end
+      end
+    end
   end
 
 end

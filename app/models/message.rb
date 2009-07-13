@@ -34,7 +34,7 @@ class Message < ActiveRecord::Base
   has_many :message_users, :dependent => :destroy
   has_many :addressed_users, :through => :message_users, :source => :user
 
-  belongs_to :owner, :class_name => 'User'
+  belongs_to :owner, :class_name => 'User', :include => [:profile_image]
   belongs_to :attachable, :polymorphic => true
 
   after_create :process_addressed_users, :assign_parent_to_message, :increment_message_counters#, :deliver_notification
@@ -62,7 +62,13 @@ class Message < ActiveRecord::Base
     
     paginate default_options.merge(options)
   end
-#  has_many :message_users, :dependent => :destroy
+
+  def body_for_add_this
+    body.gsub(/\r\n|\n\r|\n|\r/," ").gsub("'","\\\\'")
+  end
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~ protected ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  protected
 
   def process_addressed_users
     body.scan(/@\w[\w\.\-_]+/).uniq.collect{ |u| u.gsub!(/^@/,'') }.each do |login|

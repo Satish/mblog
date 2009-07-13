@@ -66,6 +66,29 @@ var ReplyToMessageForm = {
 
 };
 
+var successMessage = {
+  initialize: function() {
+    $("#successMessage").dialog({ autoOpen: false,
+                                  model: 'true',
+                                  width: 400,
+                                  overlay:
+                                   {
+                                     background: '#000',
+                                     opacity: 0.6
+                                   },
+                                  buttons: { "Close": function() { $(this).dialog("close"); } } 
+                                });
+  },
+
+  open: function() {
+    $("#successMessage").dialog('open');
+  },
+
+  close: function() {
+    $("#successMessage").dialog('close');
+  },
+
+};
 function setCursorAtEnd(myField, myValue) {
   if (document.selection) {
     myField.focus();

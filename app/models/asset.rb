@@ -19,16 +19,11 @@
 
 class Asset < ActiveRecord::Base
 
-  THUMBNAILS = { :S50x50 => "50x50", :S80x80 => "80x80", :S350x350 => "350x350" }
+  THUMBNAILS = { :S50x50 => "50x50", :S80x80 => "80x80", :S150x150 => "150x150", :S350x350 => "350x350" }
     
-  validates_presence_of :owner_id, :attachable_id, :attachable_type
+  validates_presence_of :owner_id, :attachable_id, :attachable_type, :if => Proc.new{ |asset| asset.parent_id.blank? }
   
-  has_attachment :content_type => [ :image,
-                                    'application/msword',
-                                    'application/pdf',
-                                    'application/vnd.ms-excel',
-                                    'text/plain',
-                                    'application/vnd.ms-powerpoint'],
+  has_attachment :content_type => [:image],
                  :thumbnails => THUMBNAILS,
                  :storage => RAILS_ENV == "production" ? :s3 : :file_system
 

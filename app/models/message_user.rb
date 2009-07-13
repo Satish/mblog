@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: message_users
+#
+#  id         :integer(4)      not null, primary key
+#  user_id    :integer(4)
+#  message_id :integer(4)
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class MessageUser < ActiveRecord::Base
 
   validates_presence_of :message_id, :user_id

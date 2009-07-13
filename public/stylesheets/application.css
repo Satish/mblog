@@ -1,349 +1,96 @@
-* {
-  margin: 0;
-  padding: 0;
-  font-weight: inherit;
-  font-style: inherit;
-  font-family: inherit;
-  vertical-align: baseline; }
+* { margin: 0; padding: 0; font-weight: inherit; font-style: inherit; font-family: inherit; vertical-align: baseline; }
+html { overflow-y: scroll; }
+ul, ol { list-style-image: none; list-style-position: outside; list-style-type: none; }
+h1 { padding: 10px 0px; font-size:25px;}
+a { text-decoration: none; color: #1382B9; }
+a img { border: none; }
+a:active, a:hover, a:visited { text-decoration: none; color: #1382B9; }
 
-html {
-  overflow-y: scroll; }
+body { font-family: "Helvetica Neue", Helvetica, "Lucida Grande", Arial, Verdana, Sans-Serif; }
+body#body { font-size: 85%; background-color: #f0f0f0; }
+#body #wrapper { margin: 0px auto; width: 80%; background-color: #fff; border: 1px solid #DDDDDD; }
 
-ul, ol {
-  list-style-image: none;
-  list-style-position: outside;
-  list-style-type: none; }
+.floatRight { float: right; }
+.buttonLink { border: 1px solid; border-color: #aaa #444 #444 #aaa; padding: 2px 5px; }
+.red { color:#FF0000 !important; }
+.submitButton { border: 1px solid; border-color: #dadada #555 #555 #dadada; padding: 2px 5px; }
 
-body {
-  font-family: "Helvetica Neue", Helvetica, "Lucida Grande", Arial, Verdana, Sans-Serif; }
+#header, #headerInner { clear: both; overflow: hidden; }
+#header { padding: 10px 0px; padding: 5px; font-size: 1em; border-bottom: 1px solid #ccc; }
+#headerInner { padding: 0px 10px; margin-bottom: 10px; }
+#headerInner .right { float: right; }
+#headerInner .left { float: left; }
+#headerInner .topNav { padding-bottom: 20px; font-weight: bold; overflow: hidden; }
+#headerInner .topNav ul li { float: right; margin: 2px; padding: 0px 10px; border-right: 1px solid #3A2012; }
+#headerInner .topNav ul li.last { border: none; }
+#headerInner .logo h1 { font-size: 3em; }
+#headerInner .logo h1 a { color: #999; }
+#header .navigationBar { overflow: hidden; padding: 5px 10px; clear: both; background: #858484 url(/images/bgNavigation.png); font-size: 1.2em; font-weight: bold; }
+#header .navigationBar li { float: left; padding: 5px 15px; border-right: 1px solid #555555; }
+#header .navigationBar li.inactive a { color: #eee; }
 
-a {
-  text-decoration: none;
-  color: #1382B9; }
-  a img {
-    border: none; }
-  a:active, a:hover, a:visited {
-    text-decoration: none;
-    color: #1382B9; }
+#searchBox .searchField, #searchBox .searchButton { border: 1px solid #333333; font-size: 1.5em; }
+#searchBox .searchField { padding: 2px 5px; }
+#searchBox .searchButton { padding: 1px 5px; }
 
-body#body {
-  font-size: 85%;
-  background-color: #f0f0f0; }
+#container { padding: 20px 10px; overflow: hidden; }
+#container #leftColumn { padding-bottom: 20px; width: 75%; float: left; }
+#container #rightColumn { width: 22%; float: right; }
+#footer { padding: 10px; text-align: center; }
+.footer_body .verticle_line{ border-left:1px solid #AAA; padding:0 5px; }
 
-#body #wrapper {
-  margin: 0px auto;
-  width: 80%;
-  background-color: #fff;
-  border: 1px solid #DDDDDD; }
-
-#header, #headerInner {
-  clear: both;
-  overflow: hidden; }
-
-#header {
-  padding: 10px 0px;
-  padding: 5px;
-  font-size: 1em;
-  border-bottom: 1px solid #ccc; }
-
-#headerInner {
-  padding: 0px 10px;
-  margin-bottom: 10px; }
-  #headerInner .right {
-    float: right; }
-  #headerInner .left {
-    float: left; }
-  #headerInner .topNav {
-    padding-bottom: 20px;
-    font-weight: bold;
-    overflow: hidden; }
-    #headerInner .topNav ul li {
-      float: right;
-      margin: 2px;
-      padding: 0px 10px;
-      border-right: 1px solid #3A2012; }
-      #headerInner .topNav ul li.last {
-        border: none; }
-  #headerInner .logo h1 {
-    font-size: 3em; }
-    #headerInner .logo h1 a {
-      color: #999; }
-
-#header .navigationBar {
-  overflow: hidden;
-  padding: 5px 10px;
-  clear: both;
-  background: #858484 url(/images/bgNavigation.png);
-  font-size: 1.2em;
-  font-weight: bold; }
-  #header .navigationBar li {
-    float: left;
-    padding: 5px 15px;
-    border-right: 1px solid #555555; }
-    #header .navigationBar li.inactive a {
-      color: #eee; }
-
-#searchBox .searchField, #searchBox .searchButton {
-  border: 1px solid #333333;
-  font-size: 1.5em; }
-#searchBox .searchField {
-  padding: 2px 5px; }
-#searchBox .searchButton {
-  padding: 1px 5px; }
-
-#container {
-  padding: 20px 10px;
-  overflow: hidden; }
-  #container #leftColumn {
-    padding-bottom: 20px;
-    width: 75%;
-    float: left; }
-  #container #rightColumn {
-    width: 22%;
-    float: right; }
-
-#footer {
-  padding: 10px;
-  text-align: center; }
-
-.footer_body .verticle_line{
-	border-left:1px solid #AAA;
-  padding:0 5px;
-}
-
-.floatRight {
-  float: right; }
-
-.formRow {
-  padding: 10px 0px;
-  overflow: hidden; }
-
-.submitButton {
-  border: 1px solid;
-  border-color: #dadada #555 #555 #dadada;
-  padding: 2px 5px; }
-
-#messageFormContainer{
-  text-align:right;
-}
-.messageForm {
-  width: 100%; }
-  .messageForm .textArea, .replyToMessageForm .replyToMessageFormBody {
-    width: 80%;
-    height: 75px;
-    border: 1px solid #dadada;
-    padding: 5px; }
-
-#replyToMessageFormContainer {
-  padding: 10px;
-}
-
+#messageFormContainer{ text-align:right; }
+.messageForm { width: 100%; }
+.messageForm .textArea, .replyToMessageForm .replyToMessageFormBody { width: 80%; height: 75px; border: 1px solid #dadada; padding: 5px; }
+#replyToMessageFormContainer { padding: 10px; }
 .replyToMessageForm .replyToMessageFormBody { width:97%; height:85px; }
+ul.message { border-bottom: 1px solid #ccc; padding: 10px; overflow: hidden; }
+ul.message:hover li.actions { visibility:visible; }
+.message li.description { width: 75%; float: left; }
+.message li.actions { visibility:hidden; width: 10%; float: left; text-align:right; }
+.showMessage{ background-image:url(/images/replyIcon.gif); }
+.replyMessage{ background-image:url(/images/replyIcon.gif); }
+.deleteMessage{ background-image:url(/images/deleteIcon.gif); }
+.editMessage{	background-image:url(/images/editIcon.png); }
+.addToFavorite{ background-image:url(/images/favoriteIcon.gif); }
+.shareMessage{ background-image:url(/images/shareIcon.gif); }
+.iconHover a:hover{	background-position:0px -19px; }
+.iconHover a{	background-repeat:no-repeat; padding: 0px 0px 1px 15px; }
 
-ul.message {
-  border-bottom: 1px solid #ccc;
-  padding: 10px;
-  overflow: hidden; }
+.formRow { padding: 5px;  overflow: hidden; }
+.formRow label { display: block; font-weight: bold; }
+.formRow input, .formRow select, .formRow textarea { border: 1px solid #999; }
+.formRow input.fieldWidth, select.fieldWidth { width: 270px; padding: 5px 2px; }
+.formRow input.fieldHeight { height: 40px; }
+.formRow select.fieldWidth { padding:5px 0 5px 2px; width:276px; }
 
-ul.message:hover li.actions {
-  visibility:visible;
-}
+input.disabledSubmitButton, input.disabledSubmitButton:hover { color:#B8B8B8; }
+.messageCharactersCount{ font-size: 30px; color:#AAA; font-weight:bold; padding-right:5px; text-align:right; }
 
-.message li.description {
-  width: 75%;
-  float: left; }
+ul.userDetails { padding:5px 0px 10px 15px; }
+ul.userDetails li { padding: 2px; }
+.followLink, .followers, .followings, .followers a, .followings a, .followLink a, .unfollowLink{ font-weight: bold; font-size: 16px; color: #AAA; }
+.following { background-image:url(/images/tickIcon.png); background-repeat:no-repeat; padding-left: 25px; }
+a.removeFollowing { background-image:url(/images/iconClose.png); background-repeat:no-repeat; padding-left: 15px; margin-left: 5px; }
 
-.message li.actions {
-  visibility:hidden;
-  width: 10%;
-  float: left;
-  text-align:right; }
+.notification { float:left; padding-right:15px; text-align:right; width:190px; }
+.notificationSave{ margin-left:205px; }
+.moreInfoNotification { margin-left:5px; }
+/*
+#errorExplanation { color: #000; width: 500px; margin: 20px 0px; overflow: hidden; line-height: 20px; border: 1px solid #bbb; }
+#errorExplanation h2 { color: #fff; padding: 5px; font-size: 14px; font-weight: normal; background-color: #CC0000; border-bottom: 1px solid #bbb; font-weight: bold; }
+#errorExplanation p { padding: 5px; font-size: 14px; margin-top: 10px; }
+#errorExplanation ul li { width: 100%; font-size: 12px; list-style: square; margin: 2px 10px 2px 30px; background: none !important; padding-left: 0; }
+*/
+.errorMessages, .errorExplanation { margin: 0 10px 20px 5px;  padding:10px 10px 10px 50px; border: 1px solid; border-color: #ccc #aaa #aaa #ccc; background: #ffc url(/images/warning.gif) 10px 15px no-repeat; text-align:left; }
+.errorMessages p, .errorExplanation p { padding: 5px 0px; font-size: 14px; }
+.errorMessages h2, .errorExplanation h2 { font-size:18px; padding: 5px; font-weight: bold; border-bottom: 1px solid #bbb;  font-weight: bold;}
+.errorMessages ul li, .errorExplanation ul li { width: 100%; font-size: 12px; list-style: square; margin: 2px 10px 2px 15px; background: none !important; padding-left: 0; }
+.fieldWithErrors input, .fieldWithErrors textarea { padding: 2px; border: 3px solid red; }
 
-.showMessage{
-	background-image:url(/images/replyIcon.gif);
-}
-
-.replyMessage{
-	background-image:url(/images/replyIcon.gif);
-}
-
-.deleteMessage{
-	background-image:url(/images/deleteIcon.gif);
-}
-
-.editMessage{
-	background-image:url(/images/editIcon.png);
-}
-
-.addToFavorite{
-	background-image:url(/images/favoriteIcon.gif);
-}
-
-.shareMessage{
-	background-image:url(/images/shareIcon.gif);
-}
-
-.iconHover a:hover{
-	background-position:0px -19px;
-}
-
-.iconHover a{
-	background-repeat:no-repeat;
-  padding: 0px 0px 1px 15px;
-}
-
-.formRow {
-  padding: 5px; }
-  .formRow label {
-    display: block;
-    font-weight: bold; }
-  .formRow input.fieldWidth {
-    width: 250px;
-    border: 1px solid #999;
-    padding: 2px 5px; }
-
-.buttonLink {
-  border: 1px solid;
-  border-color: #aaa #444 #444 #aaa;
-  padding: 2px 5px; }
-
-.red {
-  color:#FF0000 !important; }
-
-input.disabledSubmitButton, input.disabledSubmitButton:hover {
-  color:#B8B8B8;
-}
-
-.messageCharactersCount{
-  font-size: 30px;
-  color:#AAA;
-  font-weight:bold;
-  padding-right:5px;
-  text-align:right;
-}
-
-ul.userDetails {
-  padding:5px 0px 10px 15px;
-}
-
-ul.userDetails li {
-  padding: 2px;
-}
-
-.followLink, .followers, .followings, .followers a, .followings a, .followLink a, .unfollowLink{
-  font-weight: bold;
-  font-size: 16px;
-  color: #AAA; 
-}
-
-.following {
-	background-image:url(/images/tickIcon.png);
-	background-repeat:no-repeat;
-  padding-left: 25px;
-}
-
-a.removeFollowing {
-  background-image:url(/images/iconClose.png);
-	background-repeat:no-repeat;
-  padding-left: 15px;
-  margin-left: 5px;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-.fieldWithErrors input, .fieldWithErrors textarea {
-  padding: 2px;
-  border: 3px solid red; }
-
-#errorExplanation {
-  color: #000;
-  width: 500px;
-  margin: 20px 0px;
-  overflow: hidden;
-  line-height: 20px;
-  border: 1px solid #bbb; }
-  #errorExplanation h2 {
-    color: #fff;
-    padding: 5px;
-    font-size: 14px;
-    font-weight: normal;
-    background-color: #CC0000;
-    border-bottom: 1px solid #bbb;
-    font-weight: bold; }
-  #errorExplanation p {
-    padding: 5px;
-    font-size: 14px;
-    margin-top: 10px; }
-  #errorExplanation ul li {
-    width: 100%;
-    font-size: 12px;
-    list-style: square;
-    margin: 2px 10px 2px 30px;
-    background: none !important;
-    padding-left: 0; }
-
-
-.errorMessages {
-  margin: 0 10px 20px 5px;
-  padding:10px 10px 10px 65px;
-  border: 1px solid;
-  border-color: #ccc #aaa #aaa #ccc;
-  background: #ffc url(/images/warning.gif) 15px 15px no-repeat;
-  text-align:left;
-  }
-
-.errorMessages p {
-  padding-top: 1em;
-  }
-.errorMessages h2{font-size:18px;} 
-
-#errorMessages ul li {
-    width: 100%;
-    font-size: 12px;
-    list-style: square;
-    margin: 2px 10px 2px 15px;
-    background: none !important;
-    padding-left: 0; }
-
-.pagination {
-  overflow: hidden;
-  margin: 15px 0;
-  color: #ccc;
-  padding: 3px;
-  margin: 3px; }
-  .pagination .static {
-    font-weight: bold;
-    color: #333;
-    padding: 2px 5px 0 0; }
-  .pagination a {
-    padding: 2px 5px 2px 5px;
-    margin: 2px;
-    border: 1px solid #4082BC;
-    text-decoration: none;
-    color: #3399CC;
-    font-weight: bold; }
-    .pagination a:hover, .pagination a:active {
-      border: 1px solid #4082BC;
-      color: #3399CC; }
-  .pagination span.current {
-    padding: 2px 5px 2px 5px;
-    margin: 2px;
-    border: 1px solid #4082BC;
-    font-weight: bold;
-    background-color: #3399CC;
-    color: #FFF; }
-  .pagination span.disabled {
-    padding: 2px 5px 2px 5px;
-    margin: 2px;
-    border: 1px solid #eee;
-    color: #ddd; }
+.pagination { overflow: hidden; margin: 15px 0; color: #ccc; padding: 3px; margin: 3px; }
+.pagination .static { font-weight: bold; color: #333; padding: 2px 5px 0 0; }
+.pagination a { padding: 2px 5px 2px 5px; margin: 2px; border: 1px solid #4082BC; text-decoration: none; color: #3399CC; font-weight: bold; }
+.pagination a:hover, .pagination a:active { border: 1px solid #4082BC; color: #3399CC; }
+.pagination span.current { padding: 2px 5px 2px 5px; margin: 2px; border: 1px solid #4082BC; font-weight: bold; background-color: #3399CC; color: #FFF; }
+.pagination span.disabled { padding: 2px 5px 2px 5px; margin: 2px; border: 1px solid #eee; color: #ddd; }

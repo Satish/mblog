@@ -1,0 +1,18 @@
+= javascript_tag '$(document).ready(function(){$("#tabs1").tabs();});'
+= javascript_tag "$(document).ready(function(){successMessage.initialize();});"
+#successMessage{ :style => "display:none; font-size:20px;" }
+#tabs1
+  %ul
+    %li= link_to 'Account', "#fragment-1"
+    %li= link_to 'Password', "#fragment-2"
+    %li= link_to 'Notices', "#fragment-3"
+    %li= link_to 'Picture', "#fragment-4"
+  #fragment-1
+    = render :partial => "form"
+  #fragment-2
+    = render :partial => "edit_password_form"
+  #fragment-3
+    = render :partial => "edit_notices_form"
+  #fragment-4
+    = render :partial => "edit_picture_form"
+%iframe{ :id => "editAccountFormIframe",  :name => "editAccountFormIframe", :style => "width: 0px; height: 0px; display: none;"}

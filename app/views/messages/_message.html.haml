@@ -7,6 +7,6 @@
         %li.iconHover= link_to '&nbsp', edit_message_path(message), :class => 'editMessage', :title => "Edit This Message"
         %li.iconHover= link_to '&nbsp;', message, :confirm => "You want to delete this message.\nAre you sure?", :method => :delete, :class => 'deleteMessage', :title => "Delete This Message"
       - if logged_in?
-        %li.iconHover= link_to '&nbsp;', "#", :class => 'shareMessage', :title => "Share This Message"
+        %li.iconHover= link_to '&nbsp;', "http://www.addthis.com/bookmark.php", :onmouseover => "return addthis_open(this, '', '#{ message_url(message) }', '#{ h(truncate(message.body_for_add_this, :length => 50)) }');", :onmouseout => "addthis_close();", :onclick => "return addthis_sendto();", :class => "shareMessage", :title => "Share This Message"
         %li.iconHover= link_to '&nbsp;', "#", :class => 'addToFavorite', :title => "Add to Favorite"
         %li.iconHover= link_to_function '&nbsp', "ReplyToMessageForm.open(#{ message.id },'#{ message.owner.unique_identifier }')", :class => 'replyMessage', :title => "Reply This Message"

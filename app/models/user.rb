@@ -36,6 +36,8 @@ class User < ActiveRecord::Base
   named_scope :deleted, :conditions => { :state => 'deleted' }
   named_scope :suspended, :conditions => { :state => 'suspended' }
 
+  attr_accessor :current_password
+
   validates_presence_of     :login,    :case_sensitive => false#, :if => :not_using_openid?
   validates_length_of       :login,    :within => 3..40, :if => Proc.new{ |user| true unless user.login.blank? } and :not_using_openid?
   validates_uniqueness_of   :login,    :case_sensitive => false#, :if => :not_using_openid?
@@ -68,16 +70,14 @@ class User < ActiveRecord::Base
   has_many :addressed_messages, :through => :message_users, :source => :message
 
   has_one :profile_image, :as => :attachable, :dependent => :destroy
+  has_one :notification, :dependent => :destroy
 
 #  has_many :assets, :as => :attachable, :dependent => :destroy
-#  has_one :notification, :dependent => :destroy
-
 
   # HACK HACK HACK -- how to do attr_accessible from here?
   # prevents a user from submitting a crafted form that bypasses activation
   # anything else you want your user to change should be added here.
-  attr_accessible :login, :email, :name, :password, :password_confirmation
-
+  attr_accessible :login, :email, :name, :password, :password_confirmation, :location, :url, :timezone, :lang, :bio, :current_password
 
 
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
@@ -90,6 +90,14 @@ class User < ActiveRecord::Base
     return nil if login.blank? || password.blank?
     u = find_in_state :first, :active, :conditions => {:login => login.downcase} # need to get the salt
     u && u.authenticated?(password) ? u : nil
+  end
+
+  def verify_and_update_password(user_attr)
+    self.attributes = user_attr
+    errors.add(:current_password, "can't be blank") if current_password.blank?
+    errors.add(:password, "can't be blank") if password.blank?
+    errors.add(:current_password, "doesn't match with existing") unless authenticated?(current_password) if errors.empty?
+    update_attributes(user_attr) if errors.empty?
   end
 
   def login=(value)

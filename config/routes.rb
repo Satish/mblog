@@ -26,6 +26,11 @@ ActionController::Routing::Routes.draw do |map|
   map.page '/pages/:permalink', :controller => 'pages', :action => 'show'
   map.with_options :controller => 'users' do |users|
     users.user '/:id', :action => 'show', :conditions => { :method => :get }
+    users.edit_account '/account/settings', :action => 'edit', :conditions => { :method => :get }
+    users.update_account '/account/update', :action => 'update', :conditions => { :method => :put }
+    users.update_password '/account/password', :action => 'update_password', :conditions => { :method => :put }
+    users.update_notices '/account/notices', :action => 'update_notices', :conditions => { :method => :put }
+    users.update_picture '/account/picture', :action => 'update_picture', :conditions => { :method => :put }
   end
 
   #resource route within a admin namespace:
