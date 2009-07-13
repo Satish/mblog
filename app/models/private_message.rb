@@ -11,7 +11,8 @@ class PrivateMessage < ActiveRecord::Base
   belongs_to :sender, :class_name=> 'User'
   belongs_to :receiver, :class_name=> 'User'
 
-#  after_create :deliver_notification
+  after_create :deliver_notification, :increment_private_messages_count
+  after_destroy :decrement_private_messages_count
 
   def validate
     unless sender.followers.find_by_id(receiver_id)
@@ -53,7 +54,16 @@ class PrivateMessage < ActiveRecord::Base
     HOST+'/outbox'
   end
 
-  private
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~ protected ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  protected
+
+  def increment_private_messages_count
+    receiver.increment!(:private_messages_count)
+  end
+
+  def decrement_private_messages_count
+    receiver.decrement!(:private_messages_count)
+  end
 
   def deliver_notification
     NotificationMailer.deliver_email_on_new_direct_message(receiver, sender, self) if self.receiver.notification.email_on_new_direct_message && self.receiver.active?

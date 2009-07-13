@@ -7,7 +7,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string        :state,   :null => :no, :default => 'passive'
       t.string        :identity_url, :timezone, :url, :bio, :location, :lang, :twitter_username
       t.datetime      :activated_at, :deleted_at, :visited_at, :remember_token_expires_at
-      t.integer       :followers_count, :followings_count, :owned_messages_count, :attached_messages_count, :addressed_messages_count, :favorite_messages_count, :default => 0
+      t.integer       :followers_count, :followings_count, :owned_messages_count, :attached_messages_count, :addressed_messages_count, :favorite_messages_count, :private_messages_count, :default => 0
 
       t.timestamps
     end

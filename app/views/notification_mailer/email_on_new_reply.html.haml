@@ -3,7 +3,7 @@
   %p{ :style => "padding:5px 0px" }= "#{ h @sender.name } (#{ link_to h(@sender.login), user_url(@sender, :host => SITE_NAME ) }) just replied to your post on #{ SITE_NAME }."
   %p{ :style => "padding:5px 0px" }= h(@message.body)
   %p{ :style => "padding:5px 0px 2px 0px" }= "You can login and view the entire thread here:"
-  %p{ :style => "padding:5px 0px" }= message_url(@message, :host => SITE_NAME)
+  %p{ :style => "padding:5px 0px" }= message_url(@message, :host => SITE_NAME, :anchor => "notices")
 
   %p{ :style => "padding:10px 0px" }= "Turn off your notification preferences here: #{ edit_account_url(:host => SITE_NAME) }."
   %p{ :style => "padding:30px 0px" }= SITE

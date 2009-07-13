@@ -4,6 +4,7 @@ class PrivateMessagesController < ApplicationController
   after_filter :mark_read_messages_as_unread, :only=> [:inbox]
 
   def index
+    debugger
     @private_message  = PrivateMessage.new(:message => '')
     @private_messages = current_user.inbox_messages.paginate(:page=> params[:page], :include=> [:sender, :receiver])
     @user = current_user
