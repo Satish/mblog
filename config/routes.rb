@@ -19,6 +19,8 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :messages
   map.resources :private_messages, :only => [:index, :create, :destroy]
+  map.private_messages '/private_messages/:id', :controller => 'private_messages', :action => 'index', :conditions => { :method => :get }
+
   map.user_messages '/:user_id/messages', :controller => 'messages', :action => 'create', :conditions => { :method => :post }  
   map.resources :users, :only => [:index] do |users|
      users.resources :contacts, :path_prefix => ":user_id", :only => [:index, :create], :collection => { :remove => :delete }

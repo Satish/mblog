@@ -4,8 +4,10 @@
 #else
 
 unless @private_message.new_record?
-  page.insert_html :top, "#outbox_root_messages", :partial=> @private_message
   page.flash_message.show("Your private message to #{@private_message.receiver.login} has been sent!") if params[:source].blank?
+  page.insert_html :top, "#privateMessages", :partial => @private_message if params[:id] == 'outbox'
   @private_message  = PrivateMessage.new(:message => "")
+else
+
 end
 page.replace 'privateMessageForm', :partial=> 'form'

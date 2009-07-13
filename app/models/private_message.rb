@@ -45,13 +45,20 @@ class PrivateMessage < ActiveRecord::Base
   def description
     self.message
   end
+#
+#  def link
+#    HOST+'/inbox'
+#  end
+#
+#  def alt_link
+#    HOST+'/outbox'
+#  end
 
-  def link
-    HOST+'/inbox'
-  end
+  def self.search(query, options)
+    conditions = ["message like ?", "%#{ query }%"] unless query.blank?
+    default_options = { :conditions => conditions }
 
-  def alt_link
-    HOST+'/outbox'
+    paginate default_options.merge(options)
   end
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~ protected ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

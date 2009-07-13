@@ -4,9 +4,8 @@ class PrivateMessagesController < ApplicationController
   after_filter :mark_read_messages_as_unread, :only=> [:inbox]
 
   def index
-    debugger
     @private_message  = PrivateMessage.new(:message => '')
-    @private_messages = current_user.inbox_messages.paginate(:page=> params[:page], :include=> [:sender, :receiver])
+    @private_messages = get_messages
     @user = current_user
 
     respond_to do |format|
@@ -64,6 +63,16 @@ class PrivateMessagesController < ApplicationController
   def mark_read_messages_as_unread
     message_ids = @private_messages.collect(&:id).join(',')
     PrivateMessage.update_all("private_messages.read=1", "id in (#{message_ids})") unless message_ids.blank?
+  end
+
+  def get_messages
+    conditions = { :page=> params[:page], :include=> [:sender, :receiver] }
+    case params[:id]
+    when 'outbox'
+      current_user.outbox_messages.search(params[:query], conditions)
+    else
+      current_user.inbox_messages.search(params[:query], conditions)
+    end
   end
 
 end
