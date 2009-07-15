@@ -1,7 +1,7 @@
 class PrivateMessage < ActiveRecord::Base
 
   cattr_reader :per_page
-  @@per_page = 10
+  @@per_page = 3
 
   default_scope :order => "private_messages.created_at DESC"  
   named_scope :unread, :conditions => {:read => false}

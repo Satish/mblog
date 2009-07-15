@@ -10,5 +10,5 @@
     = link_to pluralize(@user.favorite_messages_count, 'Favorites'), user_favorites_path(@user), :id => "#{ h(@user.login) }s_favorites"
   - if @user == current_user
     %li.private_messages
-      = link_to pluralize(@user.inbox_messages.count, 'Private Message'), private_messages_path(:id => 'inbox'), :id => "#{ h(@user.login) }s_private_messages"
+      = link_to pluralize(@user.inbox_messages.count, 'Private Message'), private_messages_path, :id => "#{ h(@user.login) }s_private_messages"
     

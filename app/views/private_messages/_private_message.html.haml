@@ -1,5 +1,6 @@
 %ul.message{:id => "private_message_#{ private_message.id }" }
-  %li{ :class => "floatLeft", :style => "float:left; margin-right:15px;" }= link_to(profile_image(private_message.sender, :S80x80), private_message.sender)
+  %li{ :class => "floatLeft", :style => "float:left; margin-right:15px;" }
+    = link_to(profile_image(private_message.received_by?(current_user) ? private_message.sender : private_message.receiver , :S80x80), private_message.received_by?(current_user) ? private_message.sender : private_message.receiver)
   %li.description
     - if true #current_page?(inbox_path) %>
       = link_to "#{ private_message.sender.login }", private_message.sender
@@ -12,4 +13,4 @@
     %ul
       - if private_message.received_by?(current_user) and current_user.followed_by?(private_message.sender_id)
         %li.iconHover= link_to_function "&nbsp;", "$('#private_message_receiver_id').val('#{private_message.sender_id}');$('#private_message_message').focus();$('#private_message_parent_id').attr('value', '#{private_message.id}')", :title=> 'Reply This Message', :class => "replyMessage"
-      %li.iconHover= link_to_remote "&nbsp;", :url=> private_message_path(private_message, :is_reader=> private_message.received_by?(current_user)), :method=> :delete, :confirm => "You want to delete this message.\nAre you sure?", :html => { :class => 'deleteMessage', :title => "Delete This Message" }
+      %li.iconHover= link_to_remote "&nbsp;", :update => private_message.received_by?(current_user) ? 'inbox' : 'outbox', :url=> private_message_path(private_message, :is_reader=> private_message.received_by?(current_user), :loc => private_message.received_by?(current_user) ? 'inbox' : 'outbox', :page => params[:page]), :method=> :delete, :confirm => "You want to delete this message.\nAre you sure?", :html => { :class => 'deleteMessage', :title => "Delete This Message" }

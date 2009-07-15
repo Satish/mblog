@@ -1,0 +1,3 @@
+.privateMessages
+  = render private_messages
+  = will_paginate(private_messages, :params => { :action => 'index', :loc => loc }, :id => 'pagination_' + loc)

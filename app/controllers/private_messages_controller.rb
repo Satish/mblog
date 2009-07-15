@@ -1,29 +1,21 @@
 class PrivateMessagesController < ApplicationController
 
   before_filter :login_required
-  after_filter :mark_read_messages_as_unread, :only=> [:inbox]
+#  after_filter :mark_read_messages_as_unread, :only=> [:inbox]
 
   def index
-    @private_message  = PrivateMessage.new(:message => '')
-    @private_messages = get_messages
-    @user = current_user
-
+    conditions = { :page=> params[:page], :include=> [:sender, :receiver] }
     respond_to do |format|
-      format.html
-      format.xml { render :xml => @private_messages }
-      format.rss { render_rss_feed_for(@private_messages, :feed => { :title => "#{ @user.login }'s Inbox", :description => "#{ @user.login }'s private messages - received.", :link => HOST + '/inbox' }, :item => ResourceFeederItemHash) }
-    end
-  end
-
-  def outbox
-    @private_message  = PrivateMessage.new(:receiver_id=> params[:receiver])
-    @private_messages = current_user.outbox_messages.paginate(:page=> params[:page], :include=> [:sender, :receiver])
-    @user = current_user
-
-    respond_to do |format|
-      format.html
-      format.json { render :json => @private_messages }
-      format.rss { render_rss_feed_for(@private_messages, :feed => { :title => "#{ @user.login }'s Outbox", :description => "# {@user.login }'s private messages - sent.", :link => HOST + '/outbox' }, :item => ResourceFeederItemHash.merge(:link => :alt_link)) }
+      format.html do
+        @private_message  = PrivateMessage.new(:message => '')
+        @inbox_messages = current_user.inbox_messages.search(params[:query], conditions)
+        @outbox_messages = current_user.outbox_messages.search(params[:query], conditions)
+      end
+      format.js do
+        @inbox_messages = current_user.inbox_messages.search(params[:query], conditions) if params[:loc] == 'inbox'
+        @outbox_messages = current_user.outbox_messages.search(params[:query], conditions) if params[:loc] == 'outbox'
+        render :partial => 'private_messages', :locals => { :private_messages => @outbox_messages || @inbox_messages , :loc => params[:loc] } , :layout => false
+      end
     end
   end
 
@@ -47,8 +39,13 @@ class PrivateMessagesController < ApplicationController
     @private_message = PrivateMessage.mark_as_deleted(params[:id], current_user, params[:is_reader])
 
     respond_to do |format|
-      format.js
       if @private_message
+        format.js do
+          conditions = { :page=> params[:page], :include=> [:sender, :receiver] }
+          @inbox_messages = current_user.inbox_messages.paginate(conditions) if params[:loc] == 'inbox'
+          @outbox_messages = current_user.outbox_messages.paginate( conditions) if params[:loc] == 'outbox'
+          render :partial => 'private_messages', :locals => { :private_messages => @outbox_messages || @inbox_messages , :loc => params[:loc] } , :layout => false
+        end
         format.xml { render :xml => { :notice => "Private message deleted" }, :status => :ok }
         format.json { render :json => { :notice => "Private message deleted" }, :status => :ok }
       else
@@ -63,16 +60,6 @@ class PrivateMessagesController < ApplicationController
   def mark_read_messages_as_unread
     message_ids = @private_messages.collect(&:id).join(',')
     PrivateMessage.update_all("private_messages.read=1", "id in (#{message_ids})") unless message_ids.blank?
-  end
-
-  def get_messages
-    conditions = { :page=> params[:page], :include=> [:sender, :receiver] }
-    case params[:id]
-    when 'outbox'
-      current_user.outbox_messages.search(params[:query], conditions)
-    else
-      current_user.inbox_messages.search(params[:query], conditions)
-    end
   end
 
 end

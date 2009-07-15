@@ -1,4 +1,13 @@
+= javascript_tag "$(document).ready(function(){ $(document).ready(function(){ $('div#inbox div.pagination a').livequery('click', function() { $('#inbox').load(this.href); return false ;  }); }) });"
+= javascript_tag "$(document).ready(function(){ $(document).ready(function(){ $('div#outbox div.pagination a').livequery('click', function() { $('#outbox').load(this.href); return false ;  }); }) });"
+= javascript_tag "$(document).ready(function(){$('#privateMessages').tabs(); });"
 #privateMessageForm
   = render :partial=> 'form'
 #privateMessages
-  = render @private_messages
+  %ul
+    %li= link_to 'Inbox', '#inbox'
+    %li= link_to 'Outbox', '#outbox'
+  #inbox
+    = render :partial => 'private_messages', :locals => { :private_messages => @inbox_messages, :loc => 'inbox' }
+  #outbox
+    = render :partial => 'private_messages', :locals => { :private_messages => @outbox_messages, :loc => 'outbox' }
