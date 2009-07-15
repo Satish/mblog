@@ -2,7 +2,7 @@
   %li{ :class => "floatLeft", :style => "float:left; margin-right:15px;" }
     = link_to(profile_image(private_message.received_by?(current_user) ? private_message.sender : private_message.receiver , :S80x80), private_message.received_by?(current_user) ? private_message.sender : private_message.receiver)
   %li.description
-    - if true #current_page?(inbox_path) %>
+    - if private_message.received_by?(current_user)
       = link_to "#{ private_message.sender.login }", private_message.sender
     - else
       = link_to "#{ private_message.receiver.login }", private_message.receiver
