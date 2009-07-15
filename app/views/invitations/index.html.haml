@@ -1,0 +1,8 @@
+%h1 Invite Your Friends!
+=# Search your address book and invite your friends and colleagues to join you on Blellow! Don't worry, we will not store your login or password information, and we will never send an email to any of your contacts without your permission. <strong><%= link_to_function "See an example of the message you will be sending", "EmailPreviewPopup.open()" -%></strong></p>
+#invitationFormContainer
+  %h2.heading Enter email addresses:
+  %span Separate email addresses with commas (maximum 100).
+  - form_tag invitation_path do
+    = text_area_tag "emails", "", :rows => 8, :cols => 50
+    %div= submit_tag "Invite", :class=> "buttonLink"

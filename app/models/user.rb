@@ -81,6 +81,8 @@ class User < ActiveRecord::Base
   has_many :inbox_messages, :class_name=> 'PrivateMessage', :foreign_key => 'receiver_id', :conditions => "receiver_deleted=0"
   has_many :outbox_messages, :class_name=> 'PrivateMessage', :foreign_key => 'sender_id', :conditions => "sender_deleted=0"
 
+  has_many :invitations, :dependent => :destroy
+
 #  has_many :assets, :as => :attachable, :dependent => :destroy
 
   # HACK HACK HACK -- how to do attr_accessible from here?
@@ -181,6 +183,25 @@ class User < ActiveRecord::Base
 
   def unique_identifier
     "@" + self.login
+  end
+
+  def invite_from_emails(emails)
+    count = 0 and already_invited_emails = []
+    existing_members_emails = User.find(:all, :select => :email).collect(&:email)
+    emails.split(",")[0..99].each do |email|
+      email.strip!
+      if email =~ Authentication.email_regex
+        unless  existing_members_emails.include?(email)
+          unless invitation = invitations.find_by_email_and_user_id(email, self.id)
+            count += 1 if self.invitations << Invitation.new(:email => email)
+          else
+            already_invited_emails << email
+            InvitationMailer.deliver_invitation_email(invitation)
+          end
+        end
+      end
+    end unless emails.blank?
+    return count, already_invited_emails.uniq
   end
 
   # ++++++++++++++++++++++++++++++ protected ++++++++++++++++++++++++++++++
