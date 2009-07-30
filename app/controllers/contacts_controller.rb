@@ -16,15 +16,15 @@ class ContactsController < ApplicationController
 
   def create
     respond_to do |format|
-      format.html # index.html.erb
-      format.js
+      format.html { redirect_back_or_default('/') }
+      format.js { @success = (current_user.followings << @user) ? true : false }
     end
   end
 
   def remove
     respond_to do |format|
-      format.html # index.html.erb
-      format.js
+      format.html { redirect_back_or_default('/') }
+      format.js { @success = current_user.destroy_contact_following(@user) ? true : false }
     end
   end
 

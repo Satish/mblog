@@ -1,5 +1,6 @@
 #searchBox
-  - form_tag request.path, :method => :get do
+  - form_remote_tag :update => "users", :url => request.path, :method => :get do
     = text_field_tag :query, params[:query], :class => "searchField"
     = hidden_field_tag :id, params[:id]
     = submit_tag "Search", :class => "searchButton"
+    %div.moreInfo (Search by: login, email address or name)

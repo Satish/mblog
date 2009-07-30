@@ -5,5 +5,7 @@
       %li= link_to 'Sign Up', signup_path, :title => 'Click Here to Register'
     - else
       %li.last= link_to 'Logout', logout_path, :title => 'Click Here to Logout'
-      %li= link_to 'My Account', edit_account_path, :title => 'My Account'
+      %li= link_to 'Settings', edit_account_path, :title => 'My Settings'
+      %li= link_to 'Find People', users_path, :title => 'Find People'
+      %li= link_to 'Profile', current_user, :title => 'My profile'
     %li= link_to "Home", root_path

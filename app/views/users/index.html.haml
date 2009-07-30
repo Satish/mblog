@@ -1,11 +1,16 @@
-#userListing
-  %p= params[:query].blank? ?  "Search User" : "Searching for: " + h(params[:query])
-  = render :partial => 'shared/search'
-  %p{ :style => "font-size:11px;" } (Search by: login, email address or name)
-
-  - if @users.empty?
-    = params[:query].blank? ? "No users found" : "No results found for: " + h(params[:query])
-  - else
-    = render @users
-    .pagination
-      = will_paginate @users
+= javascript_tag "$(document).ready(function(){ $(document).ready(function(){ $('div#users div.pagination a').livequery('click', function() { $('#users').load(this.href); return false ;  }); }) });"
+= javascript_tag "$(document).ready(function(){ $(document).ready(function(){ $('div#suggested_users div.pagination a').livequery('click', function() { $('#suggested_users').load(this.href); return false ;  }); }) });"
+= javascript_tag "$(document).ready(function(){$('#invitations').tabs(); });"
+#invitations
+  %ul
+    %li= link_to 'Find People', '#userListing'
+    %li= link_to 'Invite by email', '#invite_by_email'
+    %li= link_to 'Invite from Other Network', '#invite_from_other_network'
+    %li= link_to 'Suggested Users', suggested_users_path, :title => 'suggested users'
+  #userListing
+    %p= params[:query].blank? ?  "Search User" : "Searching for: " + h(params[:query])
+    = render :partial => 'shared/search'
+    #users= render :partial => 'users'
+  #invite_by_email
+    = ''
+  #invite_from_other_network

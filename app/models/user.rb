@@ -26,11 +26,15 @@ require 'digest/sha1'
 
 class User < ActiveRecord::Base
  
+  @@per_page = 20
+  cattr_reader :per_page
+
   include Authentication
   include Authentication::ByPassword
   include Authentication::ByCookieToken
   include Authorization::AasmRoles
 
+  default_scope :order => "users.created_at DESC, users.login"
   named_scope :active, :conditions => { :state => 'active' }
   named_scope :pending, :conditions => { :state => 'pending' }
   named_scope :deleted, :conditions => { :state => 'deleted' }
@@ -131,8 +135,9 @@ class User < ActiveRecord::Base
   end
 
   def self.search(query, options)
-    conditions = ["name like ? or login like ? or email like ?", "%#{query}%", "%#{query}%", "%#{query}%"] unless query.blank?
-    default_options = {:conditions => conditions, :order => "created_at DESC, login"}
+    conditions =  query.blank? ? '' : "name like '%#{ query }%' or login like '%#{ query }%' or email like '%#{ query }%' and "
+    conditions << options.delete(:conditions)
+    default_options = { :conditions => conditions, :include => [:followers, :followings, :profile_image] }
     
     paginate default_options.merge(options)
   end

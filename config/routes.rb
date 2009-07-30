@@ -21,9 +21,9 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :private_messages, :only => [:index, :create, :destroy]
   map.resources :invitations, :only => [:index, :create]
   map.invitation '/invitations/:invitation_code', :controller => 'invitations', :invitation_code => nil
-  
+
   map.user_messages '/:user_id/messages', :controller => 'messages', :action => 'create', :conditions => { :method => :post }  
-  map.resources :users, :only => [:index] do |users|
+  map.resources :users, :only => [:index], :collection => { :suggested => :get } do |users|
      users.resources :contacts, :path_prefix => ":user_id", :only => [:index, :create], :collection => { :remove => :delete }
      users.resources :favorites, :path_prefix => ":user_id", :only => [:index, :create, :destroy]
   end

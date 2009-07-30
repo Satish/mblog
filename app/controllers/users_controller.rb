@@ -8,8 +8,13 @@ class UsersController < ApplicationController
   before_filter :find_user, :only => [:show]
   
   def index
-    options = { :page => parse_page_number(params[:page]), :per_page => 20 }
+    options = { :page => parse_page_number(params[:page]), :conditions=> "users.id != #{ current_user.id }" }
     @users = User.active.search( params[:query], options )
+    respond_to do |format|
+      format.html # index.html.erb
+      format.js { render :partial => "users" }
+      format.xml { render :xml => @users }
+    end
   end
 
   def new
@@ -95,6 +100,15 @@ class UsersController < ApplicationController
   def destroy
     @user.delete!
     redirect_to users_path
+  end
+
+  def suggested
+    options = { :page => parse_page_number(params[:page]), :conditions=> "users.id != #{ current_user.id }", :limit => 20}
+    @users = User.active.search('', options)
+    respond_to do |format|
+      format.js { render :partial => "users" }
+      format.xml { render :xml => @users }
+    end
   end
 
   # ++++++++++++++++++++++++++++++ protected ++++++++++++++++++++++++++++++

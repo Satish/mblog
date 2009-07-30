@@ -19,7 +19,7 @@ class Message < ActiveRecord::Base
 
   acts_as_nested_set :dependent => :destroy
 
-  @@per_page = 20
+  @@per_page = 10
   cattr_reader :per_page
 
   attr_accessor :parent_node_id

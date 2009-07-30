@@ -29,9 +29,11 @@ body#body { font-size: 85%; background-color: #f0f0f0; }
 #header .navigationBar li { float: left; padding: 5px 15px; border-right: 1px solid #555555; }
 #header .navigationBar li.inactive a { color: #eee; }
 
-#searchBox .searchField, #searchBox .searchButton { border: 1px solid #333333; font-size: 1.5em; }
-#searchBox .searchField { padding: 2px 5px; }
+#searchBox { margin-bottom: 30px;}
+#searchBox .searchField, #searchBox .searchButton { border: 1px solid ; border-color: #ccc #555 #555 #ccc; font-size: 1.5em; }
+#searchBox .searchField { padding: 2px 5px; border-color: #ccc; width: 60%; }
 #searchBox .searchButton { padding: 1px 5px; }
+.moreInfo { color: #999; }
 
 #container { padding: 20px 10px; overflow: hidden; }
 #container #leftColumn { padding-bottom: 20px; width: 75%; float: left; }
@@ -47,8 +49,14 @@ body#body { font-size: 85%; background-color: #f0f0f0; }
 #privateMessageForm #privateMessageBody { height: 60px;}
 #privateMessageForm textarea { width: 98%}
 .replyToMessageForm .replyToMessageFormBody { width:97%; height:85px; }
-ul.message { border-bottom: 1px solid #ccc; padding: 10px; overflow: hidden; }
+ul.message, ul.user, .border { border-bottom: 1px solid #ccc; }
+ul.message, ul.user { padding: 10px; overflow: hidden; }
+ul.message li, ul.user li { float:left; }
 ul.message:hover li.actions { visibility:visible; }
+ul.user li.profilePic{ width: 10%;}
+ul.user li.description{ width: 75%;}
+ul.user li.unfollowLink, ul.user li.followLink{ width: 15%;}
+
 .message li.description { width: 75%; float: left; }
 .message li.actions { width: 10%; float: left; text-align:right; }
 .showMessage{ background-image:url(/images/replyIcon.gif); }
@@ -80,6 +88,7 @@ a.removeFollowing { background-image:url(/images/iconClose.png); background-repe
 .notification { float:left; padding-right:15px; text-align:right; width:190px; }
 .notificationSave{ margin-left:205px; }
 .moreInfoNotification { margin-left:5px; }
+
 /*
 #errorExplanation { color: #000; width: 500px; margin: 20px 0px; overflow: hidden; line-height: 20px; border: 1px solid #bbb; }
 #errorExplanation h2 { color: #fff; padding: 5px; font-size: 14px; font-weight: normal; background-color: #CC0000; border-bottom: 1px solid #bbb; font-weight: bold; }

@@ -1,5 +1,5 @@
 class InvitationMailer < ActionMailer::Base
-  
+
   def invitation_email(invitation)
     subject        "Join #{ invitation.sender.name } on #{ SITE }"
     recipients     invitation.email

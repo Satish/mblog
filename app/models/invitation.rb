@@ -15,7 +15,7 @@ class Invitation < ActiveRecord::Base
 
   include Authentication
   include Authorization::AasmRoles
-  
+
   validates_presence_of     :email, :user_id, :invitation_code
   validates_uniqueness_of   :invitation_code
   validates_uniqueness_of   :email, :scope => :user_id
